@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 120" role="img" aria-label="QuickDash logo">
+  <defs>
+    <linearGradient id="qd-orange" x1="0" y1="60" x2="220" y2="60" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff7a18"/>
+      <stop offset=".55" stop-color="#ff6b00"/>
+      <stop offset="1" stop-color="#f26722"/>
+    </linearGradient>
+    <mask id="qd-cutout">
+      <rect width="220" height="120" fill="#fff"/>
+      <path d="M137 32h5c29 0 51 11 51 28s-22 28-51 28H92c-7 0-11-4-11-10s4-10 11-10h50c17 0 29-3 29-8s-12-8-29-8h-5Z" fill="#000"/>
+    </mask>
+  </defs>
+  <g fill="url(#qd-orange)" mask="url(#qd-cutout)">
+    <path d="M42 13h99c46 0 77 19 77 47s-31 47-77 47H42c-8 0-13-5-13-12s5-12 13-12h99c30 0 52-9 52-23s-22-23-52-23H42c-8 0-13-5-13-12s5-12 13-12Z"/>
+    <rect x="0" y="39" width="91" height="17" rx="8.5"/>
+    <rect x="0" y="64" width="132" height="18" rx="9"/>
+  </g>
+</svg>
