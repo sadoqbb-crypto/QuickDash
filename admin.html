@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickDash Internal</title>
+<style>
+  :root{--ink:#111821;--muted:#6C7480;--paper:#F5F7FA;--line:#E3E7EC;--line-2:#EEF1F4;--accent:#F26722;--ok:#1E9E6A;--warn:#D98324;--bad:#C7452F;--blue:#2E6FF2;--dark:#101721;--dark-2:#182231;--r:12px;--mono:"SFMono-Regular","Roboto Mono",monospace;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--disp:Inter,ui-sans-serif,system-ui,sans-serif}
+  *{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--sans);background:var(--paper);color:var(--ink);height:100vh;overflow:hidden}button,input,select,textarea{font:inherit}button{cursor:pointer}svg{width:18px;height:18px;stroke-width:2.2}
+  .app{display:grid;grid-template-columns:248px 1fr;height:100vh}.side{background:var(--dark);color:#AEB6C0;padding:20px 14px;display:flex;flex-direction:column}.brand{display:flex;align-items:center;gap:11px;padding:4px 8px 22px}.brand img{width:42px;height:42px;object-fit:contain}.brand b{font-size:18px;color:#fff;display:block}.brand span{font-size:11px;color:#7F8895}.nav{display:grid;gap:5px}.nav button{height:42px;border:0;border-radius:10px;background:transparent;color:#AEB6C0;display:flex;align-items:center;gap:10px;padding:0 12px;text-align:left}.nav button.active,.nav button:hover{background:#1B2533;color:#fff}.nav button.active{box-shadow:inset 3px 0 0 var(--accent)}.side-foot{margin-top:auto;border-top:1px solid #263141;padding:16px 8px;font-size:12px;line-height:1.45}.side-foot b{color:#fff}
+  .main{min-width:0;display:flex;flex-direction:column}.top{height:66px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px}.top h1{font-size:21px}.top .sub{font-size:12px;color:var(--muted);margin-top:2px}.actions{display:flex;align-items:center;gap:10px}.btn{height:38px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:0 12px;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:13px}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.dark{background:var(--dark);border-color:var(--dark);color:#fff}.btn:hover{filter:brightness(.98)}
+  .content{padding:22px;overflow:auto}.view{display:none}.view.active{display:block}.grid{display:grid;gap:16px}.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.card,.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r)}.card{padding:17px}.card .cap{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);font-weight:800}.card .num{font:800 28px/1 var(--disp);margin-top:10px}.card .note{font-size:12px;color:var(--muted);margin-top:7px}.panel{overflow:hidden}.p-head{height:52px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px}.p-head h2{font-size:15px}.p-body{padding:16px}.layout{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th{text-align:left;font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.04em;padding:10px;border-bottom:1px solid var(--line)}td{padding:12px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}tr:hover td{background:#FAFBFC}.money{font-family:var(--mono);font-weight:800}.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 9px;font-size:11px;font-weight:800}.pill.ok{background:#EAF8F2;color:var(--ok)}.pill.warn{background:#FFF4E7;color:var(--warn)}.pill.bad{background:#FDEBEC;color:var(--bad)}.pill.blue{background:#EAF2FF;color:var(--blue)}.code{font-family:var(--mono);font-size:12px;background:#F1F4F7;border:1px solid var(--line);padding:3px 6px;border-radius:6px;color:#2B3340}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:12px;font-weight:800;color:var(--muted)}.field input,.field select,.field textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}.field textarea{min-height:96px;resize:vertical}.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.health{display:grid;gap:10px}.health-row{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--line);border-radius:10px;padding:12px;background:#fff}.health-row b{font-size:13px}.health-row span{font-size:12px;color:var(--muted)}.meter{height:8px;background:#EDF1F5;border-radius:999px;overflow:hidden;margin-top:8px}.meter i{display:block;height:100%;background:var(--accent)}.json{background:#101721;color:#DCE5F0;border-radius:12px;padding:14px;overflow:auto;max-height:430px;font-family:var(--mono);font-size:12px;line-height:1.55}.issue{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff;display:grid;gap:8px}.issue-top{display:flex;justify-content:space-between;gap:10px}.issue b{font-size:13px}.issue p{font-size:12px;color:var(--muted);line-height:1.45}.login{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(135deg,#101721,#1A2533 55%,#2A1A10);z-index:20;padding:20px}.login-card{width:min(820px,100%);display:grid;grid-template-columns:1fr 330px;background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.36)}.login-brand{background:#101721;color:#fff;padding:30px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px}.login-brand img{width:74px;height:74px;object-fit:contain}.login-brand h2{font-size:34px;margin-top:28px}.login-brand p{color:#AEB6C0;margin-top:10px;line-height:1.55}.login-form{padding:30px;display:flex;flex-direction:column;justify-content:center}.error{min-height:18px;color:var(--bad);font-size:12px;font-weight:800;margin-bottom:8px}.hidden{display:none!important}
+  .mini-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:14px}.mini{border:1px solid var(--line);border-radius:12px;background:#fff;padding:12px}.mini span{font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase}.mini b{font-size:20px;display:block;margin-top:5px}.db-tools{display:flex;gap:8px;flex-wrap:wrap}.db-tools input{min-width:240px;flex:1;border:1px solid var(--line);border-radius:10px;padding:10px}.row-btn{height:30px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 9px;font-weight:800;font-size:12px}.diag-list{display:grid;gap:9px}.diag{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}.diag .top{display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}.diag b{font-size:13px}.diag p{font-size:12px;color:var(--muted);line-height:1.45}.playbook{display:grid;gap:10px}.playbook li{margin-left:18px;color:var(--muted);font-size:13px;line-height:1.45}.record-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.record-title b{font-size:13px}.support-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.timeline{display:grid;gap:9px}.event{border-left:3px solid var(--accent);padding:7px 0 7px 12px}.event b{font-size:13px}.event span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+  @media(max-width:1000px){.app{grid-template-columns:76px 1fr}.brand div,.nav span,.side-foot{display:none}.cards{grid-template-columns:repeat(2,1fr)}.layout{grid-template-columns:1fr}.side{padding:18px 10px}.nav button{justify-content:center}.login-card{grid-template-columns:1fr}.login-brand{min-height:auto}}@media(max-width:640px){body{overflow:auto}.app{display:block;height:auto}.side{position:sticky;top:0;z-index:3;flex-direction:row;align-items:center;overflow:auto}.nav{display:flex}.top{height:auto;align-items:flex-start;gap:12px;flex-direction:column;padding:16px}.content{padding:14px}.cards,.split{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<section class="login" id="login">
+  <div class="login-card">
+    <div class="login-brand">
+      <div>
+        <img src="assets/quickdash-logo-new.png" alt="QuickDash">
+        <h2>QuickDash Internal</h2>
+        <p>Private operations console for support, subscriptions, company databases, and issue checks.</p>
+      </div>
+      <p>For QuickDash employees only. Demo access: <b>admin@quickdash.app</b> / <b>2468</b></p>
+    </div>
+    <div class="login-form">
+      <h2>Team sign in</h2>
+      <div class="field"><label>Work email</label><input id="loginEmail" type="email" value="admin@quickdash.app"></div>
+      <div class="field"><label>Access code</label><input id="loginCode" type="password" inputmode="numeric" value="2468"></div>
+      <div class="error" id="loginError"></div>
+      <button class="btn primary" onclick="login()">Open internal console</button>
+    </div>
+  </div>
+</section>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><img src="assets/quickdash-logo-new.png" alt=""><div><b>QuickDash</b><span>Internal platform</span></div></div>
+    <nav class="nav">
+      <button class="active" data-view="overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg><span>Overview</span></button>
+      <button data-view="companies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18M5 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16M16 8h2a2 2 0 0 1 2 2v11M8 7h4M8 11h4M8 15h4"/></svg><span>Companies</span></button>
+      <button data-view="database"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg><span>Database</span></button>
+      <button data-view="support"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 14a8 8 0 1 1 16 0"/><path d="M4 14v3a2 2 0 0 0 2 2h2v-7H6a2 2 0 0 0-2 2ZM20 14v3a2 2 0 0 1-2 2h-2v-7h2a2 2 0 0 1 2 2Z"/><path d="M14 21h-4"/></svg><span>Support Desk</span></button>
+      <button data-view="issues"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><span>Issues</span></button>
+      <button data-view="billing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M7 15h3"/></svg><span>Billing</span></button>
+    </nav>
+    <div class="side-foot"><b>Internal rule</b><br>Use this to inspect and help customers. Do not expose this console to restaurant accounts.</div>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div><h1 id="viewTitle">Overview</h1><div class="sub" id="viewSub">All companies, databases, usage, and support health.</div></div>
+      <div class="actions"><button class="btn" onclick="syncRestaurantDB()">Sync demo DB</button><button class="btn dark" onclick="logout()">Lock</button></div>
+    </header>
+    <div class="content">
+      <section class="view active" id="v-overview">
+        <div class="grid cards">
+          <div class="card"><div class="cap">Companies</div><div class="num" id="kCompanies">0</div><div class="note">Active customer accounts</div></div>
+          <div class="card"><div class="cap">MRR estimate</div><div class="num money" id="kMrr">0</div><div class="note">Monthly subscription value</div></div>
+          <div class="card"><div class="cap">Orders this month</div><div class="num" id="kOrders">0</div><div class="note">Across connected databases</div></div>
+          <div class="card"><div class="cap">Open issues</div><div class="num" id="kIssues">0</div><div class="note">Support items needing attention</div></div>
+        </div>
+        <div class="layout" style="margin-top:16px">
+          <div class="panel"><div class="p-head"><h2>Company Health</h2><span class="pill blue">Live admin view</span></div><div class="p-body"><div class="health" id="healthList"></div></div></div>
+          <div class="panel"><div class="p-head"><h2>Internal Notes</h2><button class="btn" onclick="openIssueComposer()">Add issue</button></div><div class="p-body"><div class="grid" id="issuePreview"></div></div></div>
+        </div>
+      </section>
+      <section class="view" id="v-companies">
+        <div class="toolbar"><input id="companySearch" placeholder="Search company, code, plan, email" oninput="renderCompanies()" style="flex:1;min-width:260px;border:1px solid var(--line);border-radius:10px;padding:10px"><button class="btn primary" onclick="openCompanyForm()">Add company</button></div>
+        <div class="panel"><div class="table-wrap"><table><thead><tr><th>Company</th><th>Database code</th><th>Plan</th><th>Status</th><th>Usage</th><th>Actions</th></tr></thead><tbody id="companyRows"></tbody></table></div></div>
+      </section>
+      <section class="view" id="v-database">
+        <div class="mini-cards" id="dbMiniCards"></div>
+        <div class="layout">
+          <div class="panel">
+            <div class="p-head"><h2>Database Inspector</h2><span id="dbSelected" class="code">None</span></div>
+            <div class="p-body">
+              <div class="split">
+                <div class="field"><label>Company database code</label><select id="dbCompany" onchange="renderDatabase()"></select></div>
+                <div class="field"><label>Table / dataset</label><select id="dbTable" onchange="renderDatabase()"><option value="summary">Summary</option><option value="diagnostics">Diagnostics</option><option value="orders">Orders</option><option value="menu">Menu items</option><option value="staff">Staff</option><option value="shifts">Cashier shifts</option><option value="issues">Issues</option><option value="raw">Raw JSON</option></select></div>
+              </div>
+              <div class="db-tools">
+                <input id="dbSearch" placeholder="Search records, order numbers, staff, status, item names..." oninput="renderDatabase()">
+                <button class="btn" onclick="runHealthCheck()">Run checks</button>
+                <button class="btn" onclick="openIssueForSelected()">Open issue</button>
+                <button class="btn" onclick="exportSelectedDB()">Export JSON</button>
+              </div>
+              <div style="height:14px"></div>
+              <div class="table-wrap" id="dbTableWrap"></div>
+            </div>
+          </div>
+          <div class="panel"><div class="p-head"><h2>Record Detail</h2><div class="db-tools"><button class="btn" onclick="copySelectedCode()">Copy code</button><button class="btn" onclick="copyInspectorJSON()">Copy JSON</button></div></div><div class="p-body"><div class="record-title"><b id="recordTitle">Selected database</b><span id="recordBadge" class="pill blue">summary</span></div><pre class="json" id="dbJson"></pre></div></div>
+        </div>
+      </section>
+      <section class="view" id="v-support">
+        <div class="support-grid">
+          <div class="panel">
+            <div class="p-head"><h2>Support Console</h2><button class="btn" onclick="syncRestaurantDB()">Sync demo DB</button></div>
+            <div class="p-body">
+              <div class="field"><label>Customer database</label><select id="supportCompany" onchange="renderSupport()"></select></div>
+              <div class="mini-cards" id="supportCards" style="grid-template-columns:1fr 1fr"></div>
+              <div class="health" id="supportChecks"></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="p-head"><h2>Problem Playbook</h2><button class="btn primary" onclick="openIssueForSupport()">Create support issue</button></div>
+            <div class="p-body">
+              <ol class="playbook">
+                <li>Confirm the company database code and account status before changing anything.</li>
+                <li>Check pending orders, unpaid orders, missing staff, sold-out menu items, and open cashier shifts.</li>
+                <li>Open the Database Inspector and search the exact order number, staff name, or item name.</li>
+                <li>Export JSON when a developer needs the exact data shape causing the problem.</li>
+                <li>Create a support issue with priority and notes so another employee can continue the case.</li>
+              </ol>
+              <div style="height:16px"></div>
+              <h3 style="font-size:15px;margin-bottom:10px">Recent Activity</h3>
+              <div class="timeline" id="supportTimeline"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="v-issues">
+        <div class="toolbar"><select id="issueFilter" onchange="renderIssues()" style="border:1px solid var(--line);border-radius:10px;padding:10px"><option value="all">All issues</option><option value="open">Open</option><option value="investigating">Investigating</option><option value="resolved">Resolved</option></select><button class="btn primary" onclick="openIssueComposer()">Add issue</button></div>
+        <div class="grid" id="issuesList"></div>
+      </section>
+      <section class="view" id="v-billing">
+        <div class="layout">
+          <div class="panel"><div class="p-head"><h2>Subscription Plans</h2><button class="btn primary" onclick="savePlanPrices()">Save prices</button></div><div class="p-body" id="planEditor"></div></div>
+          <div class="panel"><div class="p-head"><h2>Plan Assignment</h2><span class="pill warn">Manual for prototype</span></div><div class="p-body"><div id="billingRows"></div></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<div id="modal" class="login hidden" style="background:rgba(16,23,33,.55)"></div>
+<script>
+const $=s=>document.querySelector(s);
+const DB_KEY='quickdash.database.v1';
+const ADMIN_KEY='quickdash.platform.v1';
+const plans={Starter:{price:15000,staff:3,branches:1,orders:500},Business:{price:30000,staff:12,branches:2,orders:2500},Premium:{price:60000,staff:50,branches:8,orders:10000}};
+let platform={companies:[],issues:[],plans:{...plans}};
+let currentView='overview';
+let selectedRecord=null;
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function money(n){return Number(n||0).toLocaleString('en-US')+' RWF';}
+function codeFor(name,i){return 'QD-'+String(name||'COMP').replace(/[^a-z0-9]/gi,'').slice(0,4).toUpperCase()+'-'+String(i+1).padStart(4,'0');}
+function loadRestaurantDB(){try{return JSON.parse(localStorage.getItem(DB_KEY)||'{}')}catch(e){return {}}}
+function savePlatform(){localStorage.setItem(ADMIN_KEY,JSON.stringify(platform));}
+function loadPlatform(){
+  try{platform=JSON.parse(localStorage.getItem(ADMIN_KEY)||'null')||platform}catch(e){}
+  if(!platform.companies.length){
+    const db=loadRestaurantDB();
+    platform.companies=[
+      fromRestaurantDB(db,0),
+      demoCompany('Bourbon Coffee Remera','coffee@demo.rw','Business',1),
+      demoCompany('Kigali Pastry Lab','pastry@demo.rw','Starter',2)
+    ];
+    platform.issues=[
+      {id:'ISS-1001',companyCode:platform.companies[0].code,title:'Receipt printer not responding',status:'open',priority:'high',note:'Check browser print dialog, printer connection, and cashier device.',createdAt:Date.now()-3600000},
+      {id:'ISS-1002',companyCode:platform.companies[1].code,title:'Menu image upload slow',status:'investigating',priority:'medium',note:'Likely storage size or network issue. Review image dimensions.',createdAt:Date.now()-86400000}
+    ];
+    savePlatform();
+  }
+}
+function fromRestaurantDB(db,i){
+  const name=db.company?.name||db.brand?.name||'QuickDash Kigali';
+  const orders=db.orders||[],menu=db.MENU||[],staff=db.staff||[],shifts=db.shiftLogs||[];
+  return {id:'cmp-local',name,email:db.company?.email||'owner@quickdash.local',code:codeFor(name,i),dbKey:DB_KEY,plan:'Business',status:'active',branchCount:1,orders,menu,staff,shifts,lastSync:Date.now(),notes:'Local prototype database currently open in this browser.'};
+}
+function demoCompany(name,email,plan,i){
+  const orders=Array.from({length:i?18:7},(_,n)=>({id:'#D'+i+n,orderNo:`${codeFor(name,i)}-${n+1}`,total:4500+(n*700),status:n%5?'paid':'pending',createdAt:Date.now()-n*86400000,staff:n%2?'Aline':'Eric',items:[{name:n%2?'Latte':'Croissant',qty:1,cat:n%2?'Coffee':'Pastries',section:n%2?'Drinks':'Food',lineTotal:4500+(n*700)}]}));
+  return {id:'cmp-demo-'+i,name,email,code:codeFor(name,i),dbKey:'supabase.public.'+codeFor(name,i).toLowerCase(),plan,status:i===2?'trial':'active',branchCount:i+1,orders,menu:[{name:'Latte',price:3000,cat:'Coffee'},{name:'Croissant',price:2000,cat:'Pastries'}],staff:[{name:'Owner',role:'Owner'},{name:'Cashier',role:'Cashier'}],shifts:[],lastSync:Date.now()-i*7200000,notes:'Demo customer record for admin testing.'};
+}
+function login(){
+  const email=$('#loginEmail').value.trim().toLowerCase(),code=$('#loginCode').value.trim();
+  if(email!=='admin@quickdash.app'||code!=='2468'){$('#loginError').textContent='Use an approved QuickDash employee login.';return;}
+  sessionStorage.setItem('quickdash.internal.authed','1');$('#login').classList.add('hidden');
+}
+function logout(){sessionStorage.removeItem('quickdash.internal.authed');$('#login').classList.remove('hidden');}
+function syncRestaurantDB(){
+  const fresh=fromRestaurantDB(loadRestaurantDB(),0);
+  const idx=platform.companies.findIndex(c=>c.id==='cmp-local');
+  if(idx>=0)platform.companies[idx]={...platform.companies[idx],...fresh,plan:platform.companies[idx].plan,status:platform.companies[idx].status,notes:platform.companies[idx].notes};
+  else platform.companies.unshift(fresh);
+  savePlatform();renderAll();
+}
+function go(view){
+  currentView=view;document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id==='v-'+view));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  const titles={overview:['Overview','All companies, databases, usage, and support health.'],companies:['Companies','Manage customer accounts, database codes, and status.'],database:['Database Inspector','Check a specific company database without opening their POS.'],support:['Support Desk','A guided console for finding problems and helping customers fast.'],issues:['Support Issues','Track problems and who is responsible.'],billing:['Billing & Plans','Control pricing, plan limits, and subscriptions.']};
+  $('#viewTitle').textContent=titles[view][0];$('#viewSub').textContent=titles[view][1];
+  if(view==='support')renderSupport();
+}
+function planPrice(plan){return Number(platform.plans?.[plan]?.price||plans[plan]?.price||0)}
+function companyUsage(c){
+  const orders=c.orders||[],paid=orders.filter(o=>o.status==='paid'),pending=orders.filter(o=>o.status==='pending'),refunded=orders.filter(o=>o.status==='refunded');
+  return {orders:orders.length,paid:paid.length,pending:pending.length,refunded:refunded.length,staff:(c.staff||[]).length,menu:(c.menu||[]).length,revenue:paid.reduce((s,o)=>s+Number(o.total||0),0),openShifts:(c.shifts||[]).filter(s=>!s.closedAt).length};
+}
+function diagnostics(c){
+  const u=companyUsage(c),limit=platform.plans[c.plan]?.orders||1000,issues=platform.issues.filter(i=>i.companyCode===c.code&&i.status!=='resolved');
+  const checks=[
+    {key:'status',label:'Account status',level:c.status==='suspended'||c.status==='past_due'?'bad':'ok',detail:`Account is ${c.status}. Plan is ${c.plan}.`},
+    {key:'orders',label:'Monthly order usage',level:u.orders>limit?'bad':u.orders>limit*.85?'warn':'ok',detail:`${u.orders} of ${limit} monthly orders used.`},
+    {key:'staff',label:'Staff profiles',level:u.staff? 'ok':'bad',detail:u.staff?`${u.staff} staff profiles found.`:'No staff profiles found. Company cannot operate POS correctly.'},
+    {key:'menu',label:'Menu data',level:u.menu?'ok':'bad',detail:u.menu?`${u.menu} menu items available.`:'No menu items found. Customer menu and POS will look empty.'},
+    {key:'pending',label:'Pending orders',level:u.pending>8?'warn':'ok',detail:`${u.pending} pending orders currently in queue.`},
+    {key:'shifts',label:'Cashier shifts',level:u.openShifts>3?'warn':'ok',detail:`${u.openShifts} cashier shifts are open.`},
+    {key:'issues',label:'Support issues',level:issues.some(i=>i.priority==='high'||i.priority==='urgent')?'bad':issues.length?'warn':'ok',detail:`${issues.length} unresolved support issues.`}
+  ];
+  return checks;
+}
+function worstLevel(checks){return checks.some(c=>c.level==='bad')?'bad':checks.some(c=>c.level==='warn')?'warn':'ok';}
+function levelText(level){return level==='bad'?'Critical':level==='warn'?'Needs review':'Healthy';}
+function renderOverview(){
+  const active=platform.companies.filter(c=>c.status!=='suspended');
+  $('#kCompanies').textContent=active.length;
+  $('#kMrr').textContent=money(active.reduce((s,c)=>s+planPrice(c.plan),0));
+  $('#kOrders').textContent=active.reduce((s,c)=>s+(c.orders||[]).length,0);
+  $('#kIssues').textContent=platform.issues.filter(i=>i.status!=='resolved').length;
+  $('#healthList').innerHTML=platform.companies.map(c=>{
+    const u=companyUsage(c),limit=platform.plans[c.plan]?.orders||1000,pct=Math.min(100,Math.round(u.orders/limit*100)),health=worstLevel(diagnostics(c));
+    return `<div class="health-row"><div><b>${esc(c.name)}</b><span><br>${esc(c.code)} · ${u.orders}/${limit} monthly orders · ${u.staff} staff · ${u.pending} pending</span><div class="meter"><i style="width:${pct}%;background:var(--${health==='ok'?'ok':health})"></i></div></div><button class="pill ${health}" onclick="inspectCompany('${c.code}')">${levelText(health)}</button></div>`;
+  }).join('');
+  $('#issuePreview').innerHTML=platform.issues.slice(0,3).map(issueCard).join('')||'<div style="color:var(--muted)">No issues yet.</div>';
+}
+function renderCompanies(){
+  const q=($('#companySearch')?.value||'').toLowerCase();
+  const rows=platform.companies.filter(c=>[c.name,c.email,c.code,c.plan,c.status].join(' ').toLowerCase().includes(q));
+  $('#companyRows').innerHTML=rows.map(c=>{
+    const u=companyUsage(c);
+    return `<tr><td><b>${esc(c.name)}</b><br><span style="color:var(--muted);font-size:12px">${esc(c.email)}</span></td><td><span class="code">${esc(c.code)}</span><br><span style="font-size:12px;color:var(--muted)">${esc(c.dbKey)}</span></td><td>${planSelect(c)}</td><td>${statusSelect(c)}</td><td>${u.orders} orders<br><span class="money">${money(u.revenue)}</span></td><td><button class="btn" onclick="inspectCompany('${c.code}')">Inspect</button></td></tr>`;
+  }).join('');
+}
+function planSelect(c){return `<select onchange="updateCompany('${c.code}','plan',this.value)">${Object.keys(platform.plans).map(p=>`<option ${c.plan===p?'selected':''}>${p}</option>`).join('')}</select>`}
+function statusSelect(c){return `<select onchange="updateCompany('${c.code}','status',this.value)">${['active','trial','past_due','suspended'].map(s=>`<option ${c.status===s?'selected':''}>${s}</option>`).join('')}</select>`}
+function updateCompany(code,key,val){const c=platform.companies.find(x=>x.code===code);if(c){c[key]=val;savePlatform();renderAll();}}
+function inspectCompany(code){go('database');$('#dbCompany').value=code;renderDatabase();}
+function renderDatabasePicker(){
+  $('#dbCompany').innerHTML=platform.companies.map(c=>`<option value="${esc(c.code)}">${esc(c.name)} · ${esc(c.code)}</option>`).join('');
+  const support=$('#supportCompany');if(support)support.innerHTML=platform.companies.map(c=>`<option value="${esc(c.code)}">${esc(c.name)} · ${esc(c.code)}</option>`).join('');
+}
+function selectedCompany(){return platform.companies.find(c=>c.code===$('#dbCompany').value)||platform.companies[0]}
+function supportCompany(){return platform.companies.find(c=>c.code===$('#supportCompany')?.value)||selectedCompany()||platform.companies[0]}
+function recordMatches(row,q){return !q||JSON.stringify(row).toLowerCase().includes(q);}
+function setRecord(title,badge,obj){
+  selectedRecord=obj;
+  $('#recordTitle').textContent=title;
+  $('#recordBadge').textContent=badge;
+  $('#dbJson').textContent=JSON.stringify(obj,null,2);
+}
+function dbMini(c){
+  const u=companyUsage(c),checks=diagnostics(c),health=worstLevel(checks);
+  $('#dbMiniCards').innerHTML=`<div class="mini"><span>Health</span><b class="pill ${health}">${levelText(health)}</b></div><div class="mini"><span>Revenue</span><b class="money">${money(u.revenue)}</b></div><div class="mini"><span>Pending</span><b>${u.pending}</b></div>`;
+}
+function renderDatabase(){
+  const c=selectedCompany();if(!c)return;
+  $('#dbSelected').textContent=c.code;
+  const table=$('#dbTable').value,wrap=$('#dbTableWrap'),u=companyUsage(c),q=($('#dbSearch')?.value||'').toLowerCase();
+  dbMini(c);
+  const summary={company:c.name,email:c.email,code:c.code,database_key:c.dbKey,plan:c.plan,status:c.status,orders:u.orders,staff:u.staff,menu_items:u.menu,revenue:money(u.revenue),last_sync:new Date(c.lastSync).toLocaleString(),notes:c.notes};
+  if(table==='summary')wrap.innerHTML=`<table><tbody>${Object.entries(summary).map(([k,v])=>`<tr><th>${esc(k.replaceAll('_',' '))}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>`;
+  if(table==='diagnostics')wrap.innerHTML=`<div class="diag-list">${diagnostics(c).map(d=>`<div class="diag"><div class="top"><b>${esc(d.label)}</b><span class="pill ${d.level}">${levelText(d.level)}</span></div><p>${esc(d.detail)}</p></div>`).join('')}</div>`;
+  if(table==='orders')wrap.innerHTML=objectTable(['Order','Date','Status','Progress','Staff','Items','Total','Inspect'],(c.orders||[]).filter(o=>recordMatches(o,q)).map((o,i)=>({obj:o,cells:[o.orderNo||o.id,new Date(o.createdAt||Date.now()).toLocaleString(),o.status,o.progress||'n/a',o.responsible||o.staff||o.cashier_name,(o.items||[]).map(x=>`${x.qty||1} ${x.name}`).join(', '),money(o.total),`<button class="row-btn" onclick="inspectRecord('orders',${i})">JSON</button>`]})),'orders',c);
+  if(table==='menu')wrap.innerHTML=objectTable(['Item','Category','Price','Promo','Status','Inspect'],(c.menu||[]).filter(m=>recordMatches(m,q)).map((m,i)=>({obj:m,cells:[m.name,m.cat||m.category,money(m.price),m.promoPrice?money(m.promoPrice):'None',m.out||m.sold_out?'Sold out':'Live',`<button class="row-btn" onclick="inspectRecord('menu',${i})">JSON</button>`]})),'menu',c);
+  if(table==='staff')wrap.innerHTML=objectTable(['Name','Role','Active','PIN','Permissions','Inspect'],(c.staff||[]).filter(s=>recordMatches(s,q)).map((s,i)=>({obj:s,cells:[s.name,s.role,s.active===false?'No':'Yes',s.pin||'n/a',(s.permissions||[]).join(', '),`<button class="row-btn" onclick="inspectRecord('staff',${i})">JSON</button>`]})),'staff',c);
+  if(table==='shifts')wrap.innerHTML=objectTable(['Staff','Opened','Closed','Orders','Total','Inspect'],(c.shifts||[]).filter(s=>recordMatches(s,q)).map((s,i)=>({obj:s,cells:[s.staff,new Date(s.openedAt).toLocaleString(),s.closedAt?new Date(s.closedAt).toLocaleString():'Open',s.orders||0,money(s.total),`<button class="row-btn" onclick="inspectRecord('shifts',${i})">JSON</button>`]})),'shifts',c);
+  if(table==='issues')wrap.innerHTML=objectTable(['Issue','Priority','Status','Notes','Inspect'],platform.issues.filter(i=>i.companyCode===c.code&&recordMatches(i,q)).map((i,n)=>({obj:i,cells:[i.title,i.priority,i.status,i.note,`<button class="row-btn" onclick="inspectRecord('issues',${n})">JSON</button>`]})),'issues',c);
+  if(table==='raw')wrap.innerHTML='<pre class="json">'+esc(JSON.stringify(c,null,2))+'</pre>';
+  setRecord(`${c.name} database`,'summary',{database_code:c.code,company_id:c.id,db_key:c.dbKey,checks:summary,diagnostics:diagnostics(c)});
+}
+function tableHtml(head,rows){return `<table><thead><tr>${head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map(r=>`<tr>${r.map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${head.length}" style="color:var(--muted);text-align:center;padding:26px">No records found.</td></tr>`}</tbody></table>`}
+function objectTable(head,rows,type,c){return `<table><thead><tr>${head.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${rows.length?rows.map((r,i)=>`<tr>${r.cells.map(v=>`<td>${String(v).startsWith('<button')?v:esc(v)}</td>`).join('')}</tr>`).join(''):`<tr><td colspan="${head.length}" style="color:var(--muted);text-align:center;padding:26px">No matching ${esc(type)} records found.</td></tr>`}</tbody></table>`}
+function inspectRecord(type,idx){
+  const c=selectedCompany();let rows=[];
+  if(type==='orders')rows=(c.orders||[]).filter(o=>recordMatches(o,($('#dbSearch')?.value||'').toLowerCase()));
+  if(type==='menu')rows=(c.menu||[]).filter(o=>recordMatches(o,($('#dbSearch')?.value||'').toLowerCase()));
+  if(type==='staff')rows=(c.staff||[]).filter(o=>recordMatches(o,($('#dbSearch')?.value||'').toLowerCase()));
+  if(type==='shifts')rows=(c.shifts||[]).filter(o=>recordMatches(o,($('#dbSearch')?.value||'').toLowerCase()));
+  if(type==='issues')rows=platform.issues.filter(i=>i.companyCode===c.code&&recordMatches(i,($('#dbSearch')?.value||'').toLowerCase()));
+  setRecord(`${type} record`,type,rows[idx]||{});
+}
+function copySelectedCode(){navigator.clipboard?.writeText(selectedCompany()?.code||'');}
+function copyInspectorJSON(){navigator.clipboard?.writeText(JSON.stringify(selectedRecord||selectedCompany(),null,2));}
+function exportSelectedDB(){
+  const c=selectedCompany(),blob=new Blob([JSON.stringify(c,null,2)],{type:'application/json'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`quickdash-${c.code}-database.json`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+}
+function runHealthCheck(){
+  const c=selectedCompany(),checks=diagnostics(c),level=worstLevel(checks);
+  c.lastHealth={level,checkedAt:Date.now(),checks};savePlatform();renderAll();setRecord(`${c.name} health check`,'diagnostics',{database_code:c.code,level,checks});
+}
+function openIssueForSelected(){openIssueComposer(selectedCompany()?.code);}
+function openIssueForSupport(){openIssueComposer(supportCompany()?.code);}
+function issueCard(i){const cls=i.status==='resolved'?'ok':i.priority==='high'?'bad':'warn';return `<div class="issue"><div class="issue-top"><b>${esc(i.title)}</b><span class="pill ${cls}">${esc(i.status)}</span></div><p>${esc(i.note)}</p><span class="code">${esc(i.companyCode)} · ${esc(i.id)}</span></div>`}
+function renderIssues(){
+  const f=$('#issueFilter')?.value||'all';
+  const rows=platform.issues.filter(i=>f==='all'||i.status===f);
+  $('#issuesList').innerHTML=rows.map(i=>`<div class="issue"><div class="issue-top"><b>${esc(i.title)}</b><span class="pill ${i.status==='resolved'?'ok':i.priority==='high'?'bad':'warn'}">${esc(i.priority)} · ${esc(i.status)}</span></div><p>${esc(i.note)}</p><div class="split"><span class="code">${esc(i.companyCode)}</span><select onchange="updateIssue('${i.id}',this.value)">${['open','investigating','resolved'].map(s=>`<option ${i.status===s?'selected':''}>${s}</option>`).join('')}</select></div></div>`).join('');
+}
+function updateIssue(id,status){const i=platform.issues.find(x=>x.id===id);if(i){i.status=status;savePlatform();renderAll();}}
+function openIssueComposer(defaultCode=''){
+  $('#modal').classList.remove('hidden');
+  $('#modal').innerHTML=`<div class="login-card" style="grid-template-columns:1fr;width:min(520px,100%)"><div class="login-form"><h2>Add support issue</h2><div class="field"><label>Company</label><select id="newIssueCompany">${platform.companies.map(c=>`<option value="${esc(c.code)}">${esc(c.name)} · ${esc(c.code)}</option>`).join('')}</select></div><div class="field"><label>Title</label><input id="newIssueTitle" placeholder="What is wrong?"></div><div class="field"><label>Priority</label><select id="newIssuePriority"><option value="medium">medium</option><option value="high">high</option><option value="low">low</option></select></div><div class="field"><label>Notes</label><textarea id="newIssueNote" placeholder="What should support check?"></textarea></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveIssue()">Save issue</button></div></div></div>`;
+  if(defaultCode)$('#newIssueCompany').value=defaultCode;
+}
+function closeModal(){$('#modal').classList.add('hidden');$('#modal').innerHTML='';}
+function saveIssue(){platform.issues.unshift({id:'ISS-'+Math.floor(1000+Math.random()*9000),companyCode:$('#newIssueCompany').value,title:$('#newIssueTitle').value.trim()||'Untitled issue',priority:$('#newIssuePriority').value,status:'open',note:$('#newIssueNote').value.trim()||'No notes added.',createdAt:Date.now()});savePlatform();closeModal();renderAll();}
+function openCompanyForm(){
+  $('#modal').classList.remove('hidden');
+  $('#modal').innerHTML=`<div class="login-card" style="grid-template-columns:1fr;width:min(520px,100%)"><div class="login-form"><h2>Add company</h2><div class="field"><label>Name</label><input id="newCompanyName" placeholder="Restaurant name"></div><div class="field"><label>Email</label><input id="newCompanyEmail" placeholder="owner@email.com"></div><div class="split"><div class="field"><label>Plan</label><select id="newCompanyPlan">${Object.keys(platform.plans).map(p=>`<option>${p}</option>`).join('')}</select></div><div class="field"><label>Status</label><select id="newCompanyStatus"><option>trial</option><option>active</option></select></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveCompany()">Create company</button></div></div></div>`;
+}
+function saveCompany(){const name=$('#newCompanyName').value.trim();if(!name)return;const i=platform.companies.length;platform.companies.push({...demoCompany(name,$('#newCompanyEmail').value.trim()||'owner@email.com',$('#newCompanyPlan').value,i),status:$('#newCompanyStatus').value});savePlatform();closeModal();renderAll();}
+function renderBilling(){
+  $('#planEditor').innerHTML=Object.entries(platform.plans).map(([name,p])=>`<div class="split"><div class="field"><label>${name} price</label><input data-plan="${name}" data-key="price" value="${p.price}"></div><div class="field"><label>Monthly order limit</label><input data-plan="${name}" data-key="orders" value="${p.orders}"></div></div>`).join('');
+  $('#billingRows').innerHTML=platform.companies.map(c=>`<div class="health-row"><div><b>${esc(c.name)}</b><span><br>${esc(c.code)} · ${esc(c.plan)} · ${money(planPrice(c.plan))}/month</span></div><span class="pill ${c.status==='active'?'ok':c.status==='suspended'?'bad':'warn'}">${esc(c.status)}</span></div>`).join('');
+}
+function savePlanPrices(){document.querySelectorAll('#planEditor input').forEach(i=>{platform.plans[i.dataset.plan][i.dataset.key]=Number(i.value)||0});savePlatform();renderAll();}
+function renderSupport(){
+  const c=supportCompany();if(!c)return;
+  const u=companyUsage(c),checks=diagnostics(c),health=worstLevel(checks);
+  $('#supportCompany').value=c.code;
+  $('#supportCards').innerHTML=`<div class="mini"><span>Database code</span><b class="code">${esc(c.code)}</b></div><div class="mini"><span>Health</span><b class="pill ${health}">${levelText(health)}</b></div><div class="mini"><span>Orders</span><b>${u.orders}</b></div><div class="mini"><span>Open issues</span><b>${platform.issues.filter(i=>i.companyCode===c.code&&i.status!=='resolved').length}</b></div>`;
+  $('#supportChecks').innerHTML=checks.map(d=>`<div class="health-row"><div><b>${esc(d.label)}</b><span><br>${esc(d.detail)}</span></div><span class="pill ${d.level}">${levelText(d.level)}</span></div>`).join('');
+  const events=[...(c.orders||[]).slice(0,5).map(o=>({t:o.createdAt||Date.now(),title:o.orderNo||o.id,sub:`${o.status} · ${money(o.total)} · ${o.staff||o.cashier_name||'Unknown staff'}`})),...platform.issues.filter(i=>i.companyCode===c.code).slice(0,4).map(i=>({t:i.createdAt||Date.now(),title:i.id+' · '+i.title,sub:`${i.priority} · ${i.status}`}))].sort((a,b)=>b.t-a.t).slice(0,8);
+  $('#supportTimeline').innerHTML=events.length?events.map(e=>`<div class="event"><b>${esc(e.title)}</b><span>${new Date(e.t).toLocaleString()} · ${esc(e.sub)}</span></div>`).join(''):'<div style="color:var(--muted);font-size:13px">No recent records for this company.</div>';
+}
+function renderAll(){renderDatabasePicker();renderOverview();renderCompanies();renderDatabase();renderIssues();renderBilling();renderSupport();}
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.view));
+loadPlatform();renderAll();if(sessionStorage.getItem('quickdash.internal.authed')==='1')$('#login').classList.add('hidden');
+</script>
+</body>
+</html>

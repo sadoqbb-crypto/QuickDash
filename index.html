@@ -45,6 +45,34 @@
   .money{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
   .app{display:grid;grid-template-columns:238px 1fr;height:100vh}
+  body.auth-lock .app{display:none}
+
+  .login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#111821,#18202B 55%,#241A13);display:none;align-items:center;justify-content:center;padding:20px;z-index:500;color:#fff;overflow:auto}
+  body.auth-lock .login-screen{display:flex}
+  .login-card{width:min(920px,100%);max-height:calc(100vh - 40px);display:grid;grid-template-columns:1.1fr 360px;gap:0;background:#fff;color:var(--ink);border-radius:20px;overflow:auto;box-shadow:0 28px 80px rgba(0,0,0,.35)}
+  .login-brand{background:var(--panel-dark);color:#fff;padding:30px;display:flex;flex-direction:column;justify-content:space-between;min-height:460px}
+  .login-logo{width:64px;height:64px;border-radius:16px;background:var(--panel-dark-2);display:grid;place-items:center;padding:10px}
+  .login-logo img{width:100%;height:100%;object-fit:contain}
+  .login-brand h1{font-size:34px;margin-top:28px}
+  .login-brand p{color:#AEB6C0;line-height:1.6;margin-top:10px;max-width:360px}
+  .login-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:28px}
+  .login-user{border:1px solid #303844;background:#1B222D;border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;text-align:left;color:#fff}
+  .login-user.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,#1B222D)}
+  .login-user .av{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;font-family:var(--disp);font-weight:800;flex:none}
+  .login-user b{display:block;font-size:13px}.login-user span{font-size:11px;color:#AEB6C0}
+  .login-form{padding:30px;display:flex;flex-direction:column;justify-content:center}
+  .login-form h2{font-size:24px;margin-bottom:7px}
+  .login-form .hint{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:22px}
+  .pin-input{height:48px;border:1px solid var(--line);border-radius:12px;padding:0 14px;font-family:var(--mono);font-size:18px;letter-spacing:.18em;text-align:center}
+  .pin-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .pin-pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0}
+  .pin-pad button{height:44px;border-radius:11px;background:var(--paper);border:1px solid var(--line);font-family:var(--mono);font-weight:700}
+  .pin-pad button:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .login-error{min-height:18px;color:#D9503E;font-size:12px;font-weight:700;margin-bottom:10px}
+  .login-actions{display:flex;gap:10px}
+  .logout-btn{height:38px;border:1px solid var(--line);background:#fff;border-radius:9px;padding:0 10px;display:grid;place-items:center;color:var(--muted)}
+  .logout-btn:hover{border-color:var(--accent);color:var(--accent)}
+  .logout-btn svg{width:16px;height:16px;stroke-width:2.2}
 
   /* ---------- SIDEBAR ---------- */
   .sidebar{background:var(--panel-dark);color:#AEB6C0;display:flex;flex-direction:column;padding:20px 14px}
@@ -54,7 +82,7 @@
   #brandLogo[src]+.brand-mark{display:none}
   #brandLogo[src]~div{display:none}
   .brand-mark{width:40px;height:40px;border-radius:11px;background:var(--accent);display:grid;place-items:center;flex:none}
-  .brand-mark img{width:100%;height:100%;border-radius:inherit;object-fit:cover}
+  .brand-mark img{width:100%;height:100%;border-radius:inherit;object-fit:contain}
   .brand-word{font-family:var(--disp);font-weight:800;font-size:19px;color:#fff;letter-spacing:-.03em;line-height:1}
   .brand-word em{font-style:normal;color:var(--accent)}
   .brand-sub{font-size:10px;color:#5E6773;margin-top:3px;letter-spacing:.02em}
@@ -170,6 +198,10 @@
   .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:6px;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
   .tag.paid{background:var(--ok-soft);color:var(--ok)}
   .tag.pending{background:var(--wait-soft);color:var(--wait)}
+  .tag.refunded{background:#FDEBEC;color:#C7452F}
+  .tag.taken{background:var(--wait-soft);color:var(--wait)}
+  .tag.preparing{background:#EAF2FF;color:#2E6FF2}
+  .tag.ready{background:var(--ok-soft);color:var(--ok)}
 
   /* ---------- POS ---------- */
   .pos{display:grid;grid-template-columns:1fr 360px;height:calc(100vh - 62px)}
@@ -294,6 +326,16 @@
   .mrow .mi b{font-size:14px;font-weight:600;display:block}
   .mrow .mi span{font-size:12px;color:var(--muted)}
   .mrow .mp{font-family:var(--mono);font-weight:700;font-size:14px;min-width:100px;text-align:right}
+  .promo-panel{margin-top:18px}
+  .promo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+  .promo-card{border:1px solid var(--line);border-radius:12px;background:#fff;padding:14px;display:grid;gap:10px}
+  .promo-card.live{border-color:color-mix(in srgb,var(--accent) 42%,var(--line));background:linear-gradient(180deg,#fff,var(--accent-soft))}
+  .promo-card .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+  .promo-card b{font-size:14px;font-weight:700}.promo-card span{font-size:12px;color:var(--muted)}
+  .promo-card .prices{font-family:var(--mono);font-weight:800;color:var(--accent)}
+  .promo-card .prices small{color:var(--muted);text-decoration:line-through;margin-left:8px}
+  .promo-actions{display:flex;gap:8px;flex-wrap:wrap}
+  .promo-empty{padding:24px;text-align:center;color:var(--muted);font-size:13px;border:1px dashed var(--line);border-radius:12px;background:#fff}
   .switch{position:relative;width:40px;height:23px;flex:none}
   .switch input{opacity:0;width:0;height:0}
   .slider{position:absolute;inset:0;background:#CBC6BA;border-radius:20px;transition:.2s;cursor:pointer}
@@ -311,6 +353,10 @@
   .digital-preview.light{background:#fff;color:var(--ink);border:1px solid var(--line)}
   .menu-hero{padding:28px 30px 18px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 24%,#111821),#111821)}
   .digital-preview.light .menu-hero{background:var(--paper)}
+  .menu-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .menu-logo{width:46px;height:46px;border-radius:13px;background:#fff;display:grid;place-items:center;padding:7px;box-shadow:0 8px 22px rgba(0,0,0,.18);overflow:hidden}
+  .menu-logo img{width:100%;height:100%;object-fit:contain}
+  .menu-kicker{font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase}
   .menu-hero h2{font-size:28px}
   .menu-hero span{font-size:13px;color:color-mix(in srgb,currentColor 68%,transparent)}
   .fancy-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding:22px 30px 28px}
@@ -336,15 +382,25 @@
   .phone-screen .image-strip{padding:18px 18px 26px}
   .phone-screen .image-card{min-width:250px;max-width:250px}
   .qr-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}
-  .qr-code{width:150px;height:150px;background:
-    linear-gradient(90deg,#111 12px,transparent 12px 24px,#111 24px 36px,transparent 36px),
-    linear-gradient(#111 12px,transparent 12px 24px,#111 24px 36px,transparent 36px);
-    background-size:36px 36px;border:12px solid #fff;box-shadow:0 0 0 1px var(--line);border-radius:10px;margin:16px 0}
+  .qr-code{width:172px;height:172px;background:#fff;border:12px solid #fff;box-shadow:0 0 0 1px var(--line);border-radius:12px;margin:16px 0;display:grid;place-items:center;overflow:hidden}
+  .qr-code img{width:100%;height:100%;object-fit:contain}
   .perm-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
   .perm-pill{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:700;color:var(--muted)}
   .perm-pill input{accent-color:var(--accent)}
   .perm-pill.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
   .access-note{font-size:12px;color:var(--muted);margin-top:8px}
+  .company-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;align-items:start}
+  .company-hero{height:210px;border-radius:14px;background:linear-gradient(135deg,var(--panel-dark),#2A3340);overflow:hidden;display:grid;place-items:center;color:#fff;margin-bottom:14px}
+  .company-hero img{width:100%;height:100%;object-fit:cover}
+  .company-hero .placeholder{text-align:center;padding:24px}.company-hero b{font-family:var(--disp);font-size:24px;display:block}
+  .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
+  .gallery .shot{aspect-ratio:1.2;border-radius:10px;background:var(--paper);border:1px solid var(--line);overflow:hidden;display:grid;place-items:center;color:var(--muted);font-size:12px}
+  .gallery img{width:100%;height:100%;object-fit:cover}
+  .profile-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px}
+  .profile-card h3{font-size:18px;margin-bottom:8px}.profile-card p{color:var(--muted);line-height:1.55}
+  .company-meta{display:grid;gap:8px;margin-top:14px;font-size:13px}.company-meta span{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding-bottom:8px}.company-meta b{font-weight:700}
+  .shift-table{max-height:460px;overflow:auto}
+  .shift-table table{min-width:620px}
 
   /* ---------- STAFF ---------- */
   .staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
@@ -501,9 +557,10 @@
   @media (max-width:1080px){
     .grid-2{grid-template-columns:1fr}.brand-grid{grid-template-columns:1fr}
     .tape{flex-direction:column;align-items:flex-start;gap:16px}.tape .cols{margin-left:0}.tape .col:first-child{border-left:none;padding-left:8px}
-    .dgrid{grid-template-columns:1fr}.dcards{grid-template-columns:repeat(2,1fr)}.designer-grid,.phone-menu-wrap{grid-template-columns:1fr}
+    .dgrid{grid-template-columns:1fr}.dcards{grid-template-columns:repeat(2,1fr)}.designer-grid,.phone-menu-wrap,.company-grid{grid-template-columns:1fr}
   }
   @media (max-width:880px){
+    .login-card{grid-template-columns:1fr}.login-brand{min-height:auto}.login-list{grid-template-columns:1fr}
     .app{grid-template-columns:70px 1fr}
     #brandLogo,.brand-word,.brand-sub,.nav-item span:not(.nav-badge),.nav-cap,.side-user b,.side-user span,.side-user .sw{display:none}
     #brandLogo[src]+.brand-mark{display:grid}
@@ -513,14 +570,54 @@
   }
 </style>
 </head>
-<body>
+<body class="auth-lock">
+<section class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-brand">
+      <div>
+        <div class="login-logo"><img src="assets/quickdash-logo-new.png" alt="QuickDash"></div>
+        <h1>QuickDash</h1>
+        <p id="loginStaffIntro">Staff sign in with a PIN before opening the POS, orders, menu, reports, or management screens.</p>
+        <div class="login-list" id="loginUsers"></div>
+      </div>
+      <div id="loginStaffFoot" style="font-size:12px;color:#7F8895">Default demo PINs are shown on each staff profile.</div>
+    </div>
+    <div class="login-form">
+      <div id="accountAuth">
+        <h2 id="accountTitle">Create your company</h2>
+        <div class="hint" id="accountHint">Set up the restaurant, coffee shop, or pastry account first. Staff PINs come after.</div>
+        <div class="field"><label>Business name</label><input type="text" id="signupBusiness" placeholder="Bloomin cafe"></div>
+        <div class="field"><label>Business type</label><select id="signupType" style="width:100%;height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px"><option>Restaurant</option><option>Coffee shop</option><option>Pastry shop</option><option>Bar</option><option>Other</option></select></div>
+        <div class="field"><label>Gmail / email</label><input type="email" id="accountEmail" placeholder="owner@gmail.com"></div>
+        <div class="field"><label>Password</label><input type="password" id="accountPassword" placeholder="At least 6 characters"></div>
+        <div class="login-error" id="accountError"></div>
+        <div class="login-actions">
+          <button class="btn btn-primary" id="accountPrimary" style="flex:1;justify-content:center" onclick="createAccount()">Create account</button>
+          <button class="btn btn-ghost" id="accountSecondary" onclick="showAccountLogin()">I have account</button>
+        </div>
+      </div>
+      <div id="staffAuth" style="display:none">
+        <h2 id="loginTitle">Staff sign in</h2>
+        <div class="hint" id="loginHint">Choose your profile, then enter your staff PIN.</div>
+        <input class="pin-input" id="pinInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-label="PIN">
+        <div class="pin-pad" id="pinPad"></div>
+        <div class="login-error" id="loginError"></div>
+        <div class="login-actions">
+          <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="submitLogin()">Sign in</button>
+          <button class="btn btn-ghost" onclick="clearPin()">Clear</button>
+        </div>
+        <button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:10px" onclick="logoutCompany()">Use another company account</button>
+      </div>
+    </div>
+  </div>
+</section>
 <div class="app">
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="brand">
-      <img id="brandLogo" src="assets/quickdash-logo.svg" alt="QuickDash logo">
-      <span class="brand-mark" id="brandMark"><img src="assets/quickdash-logo.svg" alt="QuickDash"></span>
+      <img id="brandLogo" src="assets/quickdash-logo-new.png" alt="QuickDash logo">
+      <span class="brand-mark" id="brandMark"><img src="assets/quickdash-logo-new.png" alt="QuickDash"></span>
       <div>
         <div class="brand-word" id="brandWord">Quick<em>Dash</em></div>
         <div class="brand-sub" id="brandTag">Run your restaurant faster</div>
@@ -535,6 +632,7 @@
     <div class="nav-cap">Manage</div>
     <button class="nav-item" data-view="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18M8 3v6a2 2 0 0 1-4 0M6 3v18"/><path d="M18 3c-2 0-3 2-3 5s1 4 3 4v9"/></svg><span>Menu builder</span></button>
     <button class="nav-item" data-view="phone-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/></svg><span>Phone menu</span></button>
+    <button class="nav-item" data-view="company"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 21h18"/><path d="M5 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16"/><path d="M16 8h2a2 2 0 0 1 2 2v11"/><path d="M8 7h4M8 11h4M8 15h4"/></svg><span>Company</span></button>
     <button class="nav-item" data-view="staff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M16 4a3.5 3.5 0 0 1 0 7M21 20c0-2.5-1.4-4.6-3.5-5.5"/></svg><span>Staff</span></button>
     <button class="nav-item" data-view="reports"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 3v18h18"/><path d="M7 14v4M12 9v9M17 5v13"/></svg><span>Reports</span></button>
     <button class="nav-item" data-view="brand"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3l2.5 5 5.5.8-4 3.9 1 5.5L12 21l-5-2.8 1-5.5-4-3.9L9.5 8Z"/></svg><span>Brand &amp; look</span></button>
@@ -550,7 +648,7 @@
   <div class="main">
     <header class="topbar">
       <div class="store">
-        <span class="store-logo" id="topLogo"><img src="assets/quickdash-logo.svg" alt="QuickDash"></span>
+        <span class="store-logo" id="topLogo"><img src="assets/quickdash-logo-new.png" alt="QuickDash"></span>
         <div>
           <b id="topStore">QuickDash</b>
           <span>Kacyiru branch · open till 22:00</span>
@@ -566,6 +664,7 @@
           <span class="lbl"><small>Signed in</small><b id="chipName">Flow N.</b></span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
         </button>
+        <button class="logout-btn" onclick="logout()" aria-label="Sign out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M21 3v18"/></svg></button>
         <button class="btn-new" onclick="go('pos')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>New order</button>
       </div>
     </header>
@@ -589,8 +688,8 @@
         <div class="dgrid">
           <div class="dmain">
             <div class="panel">
-              <div class="p-head"><div style="display:flex;align-items:center;gap:11px"><h3>Sales activity</h3><span style="color:var(--ok);font-size:12px;font-weight:700">+12% this week</span></div>
-                <span class="pill-sel">Weekly <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg></span></div>
+              <div class="p-head"><div style="display:flex;align-items:center;gap:11px"><h3>Sales activity</h3><span id="chartTrend" style="color:var(--ok);font-size:12px;font-weight:700">Live sales</span></div>
+                <select id="dashRange" style="height:34px;border:1px solid var(--line);border-radius:9px;padding:0 9px;font-weight:700"><option value="day">Day</option><option value="week" selected>Week</option><option value="month">Month</option></select></div>
               <div class="p-body"><div class="chart2" id="chart2"></div></div>
             </div>
             <div class="panel">
@@ -615,8 +714,8 @@
 
             <div class="panel"><div class="p-body">
               <div class="cal-head"><b id="calLabel">July 2026</b><div class="cal-nav">
-                <button aria-label="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 6l-6 6 6 6"/></svg></button>
-                <button aria-label="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg></button></div></div>
+                <button aria-label="prev" onclick="moveCalendar(-1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M15 6l-6 6 6 6"/></svg></button>
+                <button aria-label="next" onclick="moveCalendar(1)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 6l6 6-6 6"/></svg></button></div></div>
               <div class="cal-grid" id="calGrid"></div>
             </div></div>
 
@@ -644,10 +743,16 @@
       <!-- MENU BUILDER -->
       <section class="view" id="v-menu">
         <div class="head"><div><h1>Menu builder</h1><div class="sub">Your menu, your prices — changes go live on the POS instantly</div></div>
-          <button class="btn btn-primary" onclick="openItemModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Add item</button></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><label class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Import menu<input type="file" accept=".csv,text/csv" hidden onchange="importMenuCsv(this)"></label><button class="btn btn-primary" onclick="openItemModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Add item</button></div></div>
         <div class="builder">
           <div class="rail" id="menuRail"></div>
           <div class="panel"><div id="menuItems"></div></div>
+        </div>
+        <div class="panel promo-panel">
+          <div class="p-head"><h3>Promo manager</h3><button class="btn btn-primary" onclick="openPromoModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Add promo</button></div>
+          <div class="p-body">
+            <div class="promo-grid" id="promoGrid"></div>
+          </div>
         </div>
         <div class="panel designer">
           <div class="p-head"><h3>Digital menu designer</h3><span class="cap">Customer view</span></div>
@@ -688,11 +793,46 @@
           <div class="qr-panel">
             <h3>Guest menu access</h3>
             <div class="sub" style="margin-top:6px;color:var(--muted)">Place this QR at tables, counters, or on receipts.</div>
-            <div class="qr-code" aria-label="QR preview"></div>
-            <div class="field"><label>Preview link</label><input type="text" value="quickdash.local/menu/kacyiru" readonly></div>
-            <button class="btn btn-ghost" onclick="toast('QR copied','Digital menu link ready to share')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg>Copy link</button>
+            <div class="qr-code" aria-label="Scannable menu QR"><img id="menuQrImg" alt="QR code for guest menu"></div>
+            <div class="field"><label>Preview link</label><input type="text" id="publicMenuLink" value="menu.html" readonly></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn btn-ghost" onclick="copyMenuLink()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="11" height="11" rx="2"/><rect x="4" y="4" width="11" height="11" rx="2"/></svg>Copy link</button>
+              <button class="btn btn-primary" onclick="window.open(publicMenuUrl(),'_blank')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 17 17 7M8 7h9v9"/></svg>Open phone site</button>
+            </div>
           </div>
           <div class="phone-frame"><div class="phone-screen" id="phoneMenuPreview"></div></div>
+        </div>
+      </section>
+
+      <!-- COMPANY -->
+      <section class="view" id="v-company">
+        <div class="head"><div><h1>Company profile</h1><div class="sub">Your business identity, photos, and cashier shift history</div></div>
+          <button class="btn btn-primary" onclick="saveCompanyProfile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/></svg>Save profile</button></div>
+        <div class="company-grid">
+          <div>
+            <div class="profile-card">
+              <div class="company-hero" id="companyHero"></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="field"><label>Company name</label><input type="text" id="companyNameInput"></div>
+                <div class="field"><label>Phone</label><input type="text" id="companyPhoneInput"></div>
+                <div class="field"><label>Email</label><input type="text" id="companyEmailInput"></div>
+                <div class="field"><label>Address</label><input type="text" id="companyAddressInput"></div>
+              </div>
+              <div class="field"><label>About</label><input type="text" id="companyAboutInput"></div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap">
+                <label class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Cover photo<input type="file" accept="image/*" hidden onchange="uploadCompanyCover(this)"></label>
+                <label class="btn btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Add gallery<input type="file" accept="image/*" multiple hidden onchange="uploadCompanyGallery(this)"></label>
+              </div>
+              <div class="gallery" id="companyGallery"></div>
+            </div>
+          </div>
+          <div>
+            <div class="profile-card" id="companySummary"></div>
+            <div class="panel" style="margin-top:16px">
+              <div class="p-head"><h3>Cashier shift log</h3><span class="cap" id="shiftLogCount">0 shifts</span></div>
+              <div class="shift-table"><table><thead><tr><th>Staff</th><th>Opened</th><th>Closed</th><th>Time</th><th>Orders</th><th>Total</th></tr></thead><tbody id="shiftLogBody"></tbody></table></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -706,35 +846,31 @@
       <!-- REPORTS -->
       <section class="view" id="v-reports">
         <div class="head"><div><h1>Reports</h1><div class="sub">Sales performance and exports</div></div>
-          <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost" onclick="toast('Exported','sales-week.xlsx downloaded')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Excel</button>
-            <button class="btn btn-primary" onclick="toast('Report ready','sales-week.pdf downloaded')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></svg>PDF</button>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <select id="ledgerRange" style="height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-weight:700">
+              <option value="day">Day</option>
+              <option value="week" selected>Week</option>
+              <option value="month">Month</option>
+            </select>
+            <input type="date" id="ledgerDate" style="height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-weight:700">
+            <input type="text" id="ledgerOrderSearch" placeholder="Order # or item" style="height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px;font-weight:700;min-width:150px">
+            <button class="btn btn-primary" onclick="downloadLedgerExcel()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Download ledger</button>
           </div></div>
         <div class="tape" style="margin-bottom:16px">
-          <div class="today"><div class="cap">Revenue · this week</div><div class="big money">2,940,000<em>RWF</em></div><div class="delta">441 orders · <b>Saturday</b> was best</div></div>
+          <div class="today"><div class="cap" id="ledgerPeriodLabel">Revenue · selected period</div><div class="big money" id="ledgerRevenue">0<em>RWF</em></div><div class="delta" id="ledgerMeta">0 orders · 0 ledger lines</div></div>
           <div class="cols">
-            <div class="col"><div class="v money" style="font-size:20px">1.18M</div><div class="l">Coffee</div></div>
-            <div class="col"><div class="v money" style="font-size:20px">940k</div><div class="l">Food</div></div>
-            <div class="col"><div class="v">Cappuccino</div><div class="l">Top item</div></div>
+            <div class="col"><div class="v money" style="font-size:20px" id="drinkSales">0</div><div class="l">Drinks</div></div>
+            <div class="col"><div class="v money" style="font-size:20px" id="foodSales">0</div><div class="l">Food</div></div>
+            <div class="col"><div class="v" id="topLedgerItem">None</div><div class="l">Top item</div></div>
           </div>
         </div>
         <div class="grid-2">
           <div class="panel"><div class="p-head"><h3>Sales by category</h3></div><div class="p-body" id="repCats"></div></div>
-          <div class="panel"><div class="p-head"><h3>How people pay</h3></div><div class="p-body">
-            <div style="display:flex;align-items:center;gap:22px">
-              <svg width="140" height="140" viewBox="0 0 42 42">
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#EEEAE1" stroke-width="7"/>
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#1E9E6A" stroke-width="7" stroke-dasharray="52 48" stroke-dashoffset="25" stroke-linecap="round"/>
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--accent)" stroke-width="7" stroke-dasharray="33 67" stroke-dashoffset="-27" stroke-linecap="round"/>
-                <circle cx="21" cy="21" r="15.9" fill="none" stroke="#2E6FF2" stroke-width="7" stroke-dasharray="15 85" stroke-dashoffset="-60" stroke-linecap="round"/>
-              </svg>
-              <div style="flex:1;display:flex;flex-direction:column;gap:12px">
-                <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:11px;height:11px;border-radius:3px;background:#1E9E6A"></span>Mobile Money<b class="money" style="margin-left:auto">52%</b></div>
-                <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:11px;height:11px;border-radius:3px;background:var(--accent)"></span>Cash<b class="money" style="margin-left:auto">33%</b></div>
-                <div style="display:flex;align-items:center;gap:10px;font-size:13px"><span style="width:11px;height:11px;border-radius:3px;background:#2E6FF2"></span>Card<b class="money" style="margin-left:auto">15%</b></div>
-              </div>
-            </div>
-          </div></div>
+          <div class="panel"><div class="p-head"><h3>Payment totals</h3></div><div class="p-body" id="repPayments"></div></div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <div class="p-head"><h3>Sales ledger preview</h3><span class="cap" id="ledgerLineCount">0 lines</span></div>
+          <div class="shift-table"><table><thead><tr><th>Order</th><th>Date</th><th>Section</th><th>Category</th><th>Item</th><th>Qty</th><th>Total</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
         </div>
       </section>
 
@@ -746,7 +882,7 @@
             <div class="field">
               <label>Your logo</label>
               <div class="drop" onclick="document.getElementById('logoInput').click()">
-                <div class="prev" id="dropPrev"><img src="assets/quickdash-logo.svg" alt="QuickDash logo preview"></div>
+                <div class="prev" id="dropPrev"><img src="assets/quickdash-logo-new.png" alt="QuickDash logo preview"></div>
                 <div class="txt"><b>Upload your logo</b><span>PNG or JPG, square works best. Shows on the sidebar &amp; receipts.</span></div>
                 <span class="up">Choose file</span>
                 <input type="file" id="logoInput" accept="image/*" hidden>
@@ -776,7 +912,7 @@
           <div>
             <label style="font-size:12px;font-weight:600;color:var(--muted);display:block;margin-bottom:10px">Live receipt preview</label>
             <div class="receipt">
-              <div class="rlogo" id="rLogo"><img src="assets/quickdash-logo.svg" alt="QuickDash"></div>
+              <div class="rlogo" id="rLogo"><img src="assets/quickdash-logo-new.png" alt="QuickDash"></div>
               <div class="rname" id="rName">QuickDash</div>
               <div class="rtag" id="rTag">Run your restaurant faster</div>
               <div class="rline"></div>
@@ -842,16 +978,21 @@
 
 <div class="toast" id="toast"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 6 9 17l-5-5"/></svg></span><div><span id="toastMsg">Done</span><small id="toastSub"></small></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase-config.js"></script>
+<script src="assets/supabase-bridge.js"></script>
 <script>
 const $=s=>document.querySelector(s);
-const DEFAULT_WORDMARK='assets/quickdash-logo.svg';
-const DEFAULT_MARK='assets/quickdash-logo.svg';
+const OLD_MARK='assets/quickdash-logo.svg';
+const DEFAULT_WORDMARK='assets/quickdash-logo-new.png';
+const DEFAULT_MARK='assets/quickdash-logo-new.png';
 const PALETTE=['#8B5E34','#C7452F','#D98324','#2E6FF2','#7A4FD6','#1E9E6A','#D64B7A','#0E7C86'];
 const BRAND_SWATCHES=['#F26722','#2E6FF2','#1E9E6A','#7A4FD6','#E23E57','#0E7C86','#D98324','#171C24'];
 const BASE_ACCESS=['pos','orders'];
-const ADMIN_ACCESS=['dashboard','menu','phone-menu','staff','reports','brand'];
-const ACCESS_LABELS={dashboard:'Dashboard',pos:'POS',orders:'Orders',menu:'Menu builder','phone-menu':'Phone menu',staff:'Staff',reports:'Reports',brand:'Brand'};
+const ADMIN_ACCESS=['dashboard','menu','phone-menu','company','staff','reports','brand'];
+const ACCESS_LABELS={dashboard:'Dashboard',pos:'POS',orders:'Orders',menu:'Menu builder','phone-menu':'Phone menu',company:'Company',staff:'Staff',reports:'Reports',brand:'Brand'};
 const ALL_ACCESS=[...BASE_ACCESS,...ADMIN_ACCESS];
+const DB_KEY='quickdash.database.v1';
 
 /* ---- STATE ---- */
 let categories=[{name:'Coffee',color:'#8B5E34'},{name:'Food',color:'#C7452F'},{name:'Pastries',color:'#D98324'},{name:'Cold Drinks',color:'#2E6FF2'}];
@@ -889,7 +1030,13 @@ let cashierSessions={};
 let menuDesign={mode:'fancy',theme:'dark',cat:'All'};
 let itemImageDraft='';
 let sessionTimer=null;
+let calendarCursor=new Date(2026,6,1);
+let selectedLoginStaffId=1;
+let pendingSwitchStaffId=null;
 let brand={name:'QuickDash',tag:'Run your restaurant faster',accent:'#F26722',logo:DEFAULT_MARK,wordmark:DEFAULT_WORDMARK};
+let account=null, accountAuthed=false;
+let company={name:'QuickDash Kigali',phone:'+250 788 000 000',email:'hello@quickdash.rw',address:'Kacyiru, Kigali',about:'A fast-service restaurant running orders, staff, and digital menus with QuickDash.',cover:null,gallery:[]};
+let shiftLogs=[];
 
 /* ---- HELPERS ---- */
 const fmt=n=>n.toLocaleString('en-US')+' RWF';
@@ -897,8 +1044,58 @@ const ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
 const catColor=c=>{const x=categories.find(k=>k.name===c);return x?x.color:'#6C7480'};
 function readableOn(hex){const c=hex.replace('#','');const r=parseInt(c.substr(0,2),16),g=parseInt(c.substr(2,2),16),b=parseInt(c.substr(4,2),16);return (0.299*r+0.587*g+0.114*b)>150?'#171C24':'#ffffff';}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function elapsed(start){if(!start)return'00:00';const s=Math.max(0,Math.floor((Date.now()-start)/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),sec=s%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function csvEsc(s){return `"${String(s??'').replace(/"/g,'""')}"`;}
+function duration(ms){const s=Math.max(0,Math.floor(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),sec=s%60;return h?`${h}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function elapsed(start){return start?duration(Date.now()-start):'00:00';}
 function itemThumb(m,cls='th'){return m.image?`<div class="${cls}"><img src="${m.image}" alt=""></div>`:`<div class="${cls}" style="background:${catColor(m.cat)}">${ini(m.name)}</div>`;}
+function promoActive(m){return m.promoPrice&&(!m.promoUntil||Date.now()<=new Date(m.promoUntil).getTime());}
+function salePrice(m){return promoActive(m)?Number(m.promoPrice):Number(m.price);}
+function priceText(m){return promoActive(m)?`<span style="color:var(--accent)">${salePrice(m).toLocaleString()}</span> <small style="text-decoration:line-through;color:var(--muted);font-family:var(--mono)">${Number(m.price).toLocaleString()}</small>`:Number(m.price).toLocaleString();}
+function ymd(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function sectionFor(cat){return ['Coffee','Cold Drinks','Drinks','Bar'].includes(cat)?'Drinks':'Food';}
+function menuLookup(name){return MENU.find(m=>m.name===name)||{};}
+function makeOrderNo(seq,date=new Date()){return `QD-${ymd(date).replaceAll('-','')}-${String(seq).padStart(5,'0')}`;}
+function orderTime(o){return o.createdAt||o.paidAt||Date.now();}
+function possessive(name){const n=name||'Company';return /s$/i.test(n)?`${n}'`:`${n}'s`;}
+function saveDB(){
+  const payload={categories,MENU,itemSeq,staff,staffSeq,orders,orderSeq,brand,account,company,menuDesign,shiftLogs,cashierSessions};
+  localStorage.setItem(DB_KEY,JSON.stringify(payload));
+  if(window.QuickDashCloud?.configured())QuickDashCloud.pushSnapshotSoon(payload);
+}
+function loadDB(){
+  try{
+    const data=JSON.parse(localStorage.getItem(DB_KEY)||'null');if(!data)return;
+    if(data.categories)categories=data.categories;if(data.MENU)MENU=data.MENU;if(data.itemSeq)itemSeq=data.itemSeq;
+    if(data.staff)staff=data.staff;if(data.staffSeq)staffSeq=data.staffSeq;if(data.orders)orders=data.orders;if(data.orderSeq)orderSeq=data.orderSeq;
+    if(data.brand)brand={...brand,...data.brand};if(data.account)account={...data.account};if(data.company)company={...company,...data.company};
+    if(data.menuDesign)menuDesign={...menuDesign,...data.menuDesign};if(data.shiftLogs)shiftLogs=data.shiftLogs;
+    if(!brand.logo||brand.logo===OLD_MARK)brand.logo=DEFAULT_MARK;
+    if(!brand.wordmark||brand.wordmark===OLD_MARK)brand.wordmark=DEFAULT_WORDMARK;
+  }catch(e){console.warn('QuickDash database reset',e);}
+}
+function applySnapshot(data){
+  if(!data)return;
+  if(data.categories)categories=data.categories;if(data.MENU)MENU=data.MENU;if(data.itemSeq)itemSeq=data.itemSeq;
+  if(data.staff)staff=data.staff;if(data.staffSeq)staffSeq=data.staffSeq;if(data.orders)orders=data.orders;if(data.orderSeq)orderSeq=data.orderSeq;
+  if(data.brand)brand={...brand,...data.brand};if(data.account)account={...account,...data.account};if(data.company)company={...company,...data.company};
+  if(data.menuDesign)menuDesign={...menuDesign,...data.menuDesign};if(data.shiftLogs)shiftLogs=data.shiftLogs;if(data.cashierSessions)cashierSessions=data.cashierSessions;
+  localStorage.setItem(DB_KEY,JSON.stringify(data));
+}
+function renderEverything(){
+  currentStaff=staff.find(s=>s.id===currentStaff?.id)||staff[0];selectedLoginStaffId=currentStaff.id;
+  ensureCashierSessions();renderCashierTabs();renderCashierPanel();
+  renderCats();renderGrid();renderCart();renderOrders();renderChart2();renderGoal();renderLiveOrders();renderShifts();renderCalendar();renderReports();refreshPending();
+  renderRail();renderMenuItems();renderStaff();renderSwatches();applyStaff();applyAccent(brand.accent||'#F26722');applyLogo(brand.logo||DEFAULT_MARK);applyBrandText();renderCompanyProfile();renderDigitalMenu();
+}
+async function loadCloudDB(){
+  if(!window.QuickDashCloud?.configured())return;
+  const data=await QuickDashCloud.pullSnapshot();
+  if(!data)return;
+  applySnapshot(data);
+  renderEverything();
+  toast('Supabase connected',`Database ${QuickDashCloud.databaseCode()} loaded`);
+}
+function publishMenuDB(){saveDB();}
 function normalizePermissions(s){if(!s.permissions)s.permissions=s.role==='Owner'?[...ALL_ACCESS]:[...BASE_ACCESS];BASE_ACCESS.forEach(v=>{if(!s.permissions.includes(v))s.permissions.push(v);});}
 function canAccess(v,s=currentStaff){normalizePermissions(s);return s.permissions.includes(v);}
 function updateNavAccess(){
@@ -910,6 +1107,113 @@ function updateNavAccess(){
 }
 function firstAllowedView(){return canAccess('dashboard')?'dashboard':'pos';}
 
+/* ---- LOGIN ---- */
+function setStaffChooserVisible(visible){
+  const list=$('#loginUsers'),intro=$('#loginStaffIntro'),foot=$('#loginStaffFoot');
+  if(list)list.style.display=visible?'':'none';
+  if(intro){
+    intro.style.display='';
+    intro.textContent=visible?'Staff sign in with a PIN before opening the POS, orders, menu, reports, or management screens.':(brand.tag||'Run your restaurant faster.');
+  }
+  if(foot){
+    foot.style.display='';
+    foot.textContent=visible?'Default demo PINs are shown on each staff profile.':'Company login first. Staff profiles stay private until the owner account is verified.';
+  }
+  if(!visible&&list)list.innerHTML='';
+}
+function showAccountSignup(){
+  $('#accountAuth').style.display='';$('#staffAuth').style.display='none';
+  setStaffChooserVisible(false);
+  $('#accountTitle').textContent='Create your company';
+  $('#accountHint').textContent='Set up the restaurant, coffee shop, or pastry account first. Staff PINs come after.';
+  $('#signupBusiness').closest('.field').style.display='';
+  $('#signupType').closest('.field').style.display='';
+  $('#accountPrimary').textContent='Create account';$('#accountPrimary').onclick=createAccount;
+  $('#accountSecondary').textContent='I have account';$('#accountSecondary').onclick=showAccountLogin;
+  $('#accountError').textContent='';
+}
+function showAccountLogin(){
+  $('#accountAuth').style.display='';$('#staffAuth').style.display='none';
+  setStaffChooserVisible(false);
+  $('#accountTitle').textContent='Company login';
+  $('#accountHint').textContent='Log in with the owner email and password, then choose the staff profile working today.';
+  $('#signupBusiness').closest('.field').style.display='none';
+  $('#signupType').closest('.field').style.display='none';
+  $('#accountEmail').value=account?.email||'';
+  $('#accountPrimary').textContent='Log in';$('#accountPrimary').onclick=loginAccount;
+  $('#accountSecondary').textContent='Create account';$('#accountSecondary').onclick=showAccountSignup;
+  $('#accountError').textContent='';
+}
+function showStaffLogin(){
+  $('#accountAuth').style.display='none';$('#staffAuth').style.display='';
+  setStaffChooserVisible(true);
+  renderLoginUsers();selectLoginStaff(selectedLoginStaffId||staff[0]?.id);renderPinPad();
+}
+function initAuthScreen(){document.body.classList.add('auth-lock');account?showAccountLogin():showAccountSignup();}
+function createAccount(){
+  const business=$('#signupBusiness').value.trim(),type=$('#signupType').value,email=$('#accountEmail').value.trim().toLowerCase(),password=$('#accountPassword').value;
+  if(!business||!email||password.length<6){$('#accountError').textContent='Add business name, email, and a password with at least 6 characters.';return;}
+  account={email,password,businessType:type,createdAt:Date.now()};
+  company.name=business;company.email=email;company.about=`${type} using QuickDash for menus, POS, orders, and reports.`;
+  brand.name=business;staff[0].name=business.split(' ')[0]+' Owner';staff[0].role='Owner';staff[0].permissions=[...ALL_ACCESS];
+  accountAuthed=true;saveDB();applyBrandText();renderStaff();toast('Company created',business);showStaffLogin();
+}
+function loginAccount(){
+  const email=$('#accountEmail').value.trim().toLowerCase(),password=$('#accountPassword').value;
+  if(!account||email!==account.email||password!==account.password){$('#accountError').textContent='Email or password is not correct.';return;}
+  accountAuthed=true;showStaffLogin();
+}
+function logoutCompany(){accountAuthed=false;pendingSwitchStaffId=null;clearPin();showAccountLogin();}
+function renderLoginUsers(){
+  const box=$('#loginUsers');if(!box)return;
+  if(!accountAuthed){box.innerHTML='';setStaffChooserVisible(false);return;}
+  box.innerHTML=staff.filter(s=>s.active).map(s=>`<button class="login-user ${s.id===selectedLoginStaffId?'active':''}" onclick="selectLoginStaff(${s.id})">
+    <span class="av" style="background:${s.color}">${ini(s.name)}</span>
+    <span><b>${esc(s.name)}</b><span>${esc(s.role)} · PIN ${s.pin}</span></span>
+  </button>`).join('');
+}
+function selectLoginStaff(id){selectedLoginStaffId=id;$('#loginError').textContent='';$('#pinInput').value='';renderLoginUsers();const s=staff.find(x=>x.id===id);$('#loginTitle').textContent=s?`Sign in as ${s.name}`:'Sign in';}
+function renderPinPad(){
+  $('#pinPad').innerHTML=[1,2,3,4,5,6,7,8,9,'⌫',0,'↵'].map(k=>`<button onclick="tapPin('${k}')">${k}</button>`).join('');
+}
+function tapPin(k){const input=$('#pinInput');if(k==='⌫')input.value=input.value.slice(0,-1);else if(k==='↵')submitLogin();else if(input.value.length<4)input.value+=k;}
+function clearPin(){$('#pinInput').value='';$('#loginError').textContent='';}
+function submitLogin(){
+  const id=pendingSwitchStaffId||selectedLoginStaffId;
+  const s=staff.find(x=>x.id===id&&x.active);
+  if(!s){$('#loginError').textContent='Choose an active staff profile';return;}
+  if($('#pinInput').value!==s.pin){$('#loginError').textContent='That PIN does not match this staff profile';return;}
+  document.body.classList.remove('auth-lock');
+  activateStaff(id);
+  pendingSwitchStaffId=null;
+  clearPin();
+  toast('Signed in',`${s.name} · ${s.role}`);
+}
+function requestStaffLogin(id){
+  const s=staff.find(x=>x.id===id);if(!s)return;
+  selectedLoginStaffId=id;pendingSwitchStaffId=id;renderLoginUsers();closeModal();
+  document.body.classList.add('auth-lock');
+  showStaffLogin();
+  $('#loginTitle').textContent=`Switch to ${s.name}`;
+  $('#loginHint').textContent='Enter this staff member PIN to switch accounts.';
+  clearPin();
+}
+function logout(){
+  pendingSwitchStaffId=null;selectedLoginStaffId=currentStaff.id;renderLoginUsers();
+  document.body.classList.add('auth-lock');
+  if(!accountAuthed){initAuthScreen();return;}
+  showStaffLogin();
+  $('#loginTitle').textContent='Sign in';
+  $('#loginHint').textContent='Choose your profile, then enter your staff PIN.';
+  clearPin();
+}
+function activateStaff(id){
+  currentStaff=staff.find(x=>x.id===id);normalizePermissions(currentStaff);
+  applyStaff();renderCashierTabs();renderCashierPanel();renderGrid();renderCart();updateNavAccess();
+  const active=document.querySelector('.view.active')?.id?.replace('v-','')||'dashboard';
+  if(!canAccess(active))go(firstAllowedView());
+}
+
 /* ---- NAV ---- */
 function go(v){
   if(!canAccess(v)){toast('Access restricted',`${currentStaff.name} can only open allowed screens`);v=firstAllowedView();}
@@ -918,6 +1222,8 @@ function go(v){
   if(v==='pos'){$('#scroll').style.display='none';$('#v-pos').classList.add('active');}
   else{$('#scroll').style.display='';$('#v-'+v).classList.add('active');$('#scroll').scrollTop=0;}
   if(v==='phone-menu')renderPhoneMenu();
+  if(v==='company')renderCompanyProfile();
+  if(v==='reports')renderReports();
 }
 document.querySelectorAll('.nav-item').forEach(n=>n.addEventListener('click',()=>go(n.dataset.view)));
 
@@ -935,10 +1241,10 @@ function renderGrid(){
   }
   const items=MENU.filter(m=>activeCat==='All'||m.cat===activeCat);
   $('#posGrid').innerHTML=items.map(m=>`<button class="item ${m.out?'out':''}" data-id="${m.id}">${m.out?'<span class="so">Sold out</span>':''}
-    ${itemThumb(m)}<b>${esc(m.name)}</b><div class="pr">${m.price.toLocaleString()} RWF</div></button>`).join('');
+    ${itemThumb(m)}<b>${esc(m.name)}</b><div class="pr">${priceText(m)} RWF</div></button>`).join('');
   document.querySelectorAll('#posGrid .item:not(.out)').forEach(b=>b.onclick=()=>addCart(+b.dataset.id));
 }
-function addCart(id){if(!cashierSessions[currentStaff.id]?.open){toast('Cashier closed','Open a cashier before taking orders');return;}const m=MENU.find(x=>x.id===id);const l=cart.find(x=>x.id===id);if(l)l.qty++;else cart.push({id,name:m.name,price:m.price,cat:m.cat,image:m.image,qty:1});renderCart();}
+function addCart(id){if(!cashierSessions[currentStaff.id]?.open){toast('Cashier closed','Open a cashier before taking orders');return;}const m=MENU.find(x=>x.id===id);const l=cart.find(x=>x.id===id);if(l)l.qty++;else cart.push({id,name:m.name,price:salePrice(m),cat:m.cat,image:m.image,qty:1});renderCart();}
 function qty(id,d){const l=cart.find(x=>x.id===id);if(!l)return;l.qty+=d;if(l.qty<=0)cart=cart.filter(x=>x.id!==id);renderCart();}
 function renderCart(){
   const box=$('#cartItems');
@@ -956,11 +1262,14 @@ function charge(){
   if(!cart.length)return;
   const session=cashierSessions[currentStaff.id];
   if(!session?.open){toast('Cashier closed','Open a cashier before charging');return;}
-  const sub=cart.reduce((s,l)=>s+l.price*l.qty,0),tot=sub+Math.round(sub*0.18);
-  orders.unshift({id:'#'+(orderSeq++),type:orderType,items:cart.map(l=>({name:l.name,qty:l.qty})),total:tot,pay:payMethod,status:'paid',staff:currentStaff.name,sc:currentStaff.color});
+  const createdAt=Date.now(),seq=orderSeq++,sub=cart.reduce((s,l)=>s+l.price*l.qty,0),vat=Math.round(sub*0.18),tot=sub+vat;
+  orders.unshift({id:'#'+seq,orderNo:makeOrderNo(seq,new Date(createdAt)),createdAt,paidAt:createdAt,type:orderType,
+    items:cart.map(l=>({name:l.name,qty:l.qty,price:l.price,cat:l.cat,section:sectionFor(l.cat),lineTotal:l.price*l.qty})),
+    subtotal:sub,vat,total:tot,pay:payMethod,status:'paid',staff:currentStaff.name,staffId:currentStaff.id,sc:currentStaff.color,shiftId:session.logId});
   session.orders++;session.total+=tot;
+  const log=shiftLogs.find(l=>l.id===session.logId);if(log){log.orders=session.orders;log.total=session.total;}
   toast('Charged '+fmt(tot),payMethod+' · by '+currentStaff.name+' · receipt printed');
-  cart=[];renderCart();renderCashierPanel();renderCashierTabs();renderOrders();refreshPending();
+  cart=[];saveDB();renderCart();renderCashierPanel();renderCashierTabs();renderOrders();refreshPending();renderShiftLogs();renderReports();
 }
 
 function ensureCashierSessions(){staff.forEach(s=>{if(!cashierSessions[s.id])cashierSessions[s.id]={open:false,start:null,orders:0,total:0};});}
@@ -988,9 +1297,18 @@ function renderCashierPanel(){
       ${session.open?`<button class="btn btn-ghost" onclick="closeCashier()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12"/></svg>Close cashier</button>`:`<button class="btn btn-primary" onclick="openCashier()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Open cashier</button>`}
     </div>`;
 }
-function setCashier(id){const s=staff.find(x=>x.id===id);if(!s)return;currentStaff=s;cart=[];applyStaff();renderCart();renderCashierTabs();renderCashierPanel();renderGrid();toast('Cashier selected',s.name);}
-function openCashier(){const s=cashierSessions[currentStaff.id];s.open=true;s.start=Date.now();s.orders=0;s.total=0;renderCashierTabs();renderCashierPanel();renderGrid();toast('Cashier opened',currentStaff.name+' is on duty');}
-function closeCashier(){const s=cashierSessions[currentStaff.id];s.open=false;toast('Cashier closed',`${currentStaff.name} · ${s.orders} orders · ${s.total.toLocaleString()} RWF`);cart=[];renderCart();renderCashierTabs();renderCashierPanel();renderGrid();}
+function setCashier(id){if(id===currentStaff.id)return;requestStaffLogin(id);}
+function openCashier(){
+  const s=cashierSessions[currentStaff.id];s.open=true;s.start=Date.now();s.orders=0;s.total=0;s.logId='shift-'+Date.now();
+  shiftLogs.unshift({id:s.logId,staffId:currentStaff.id,staff:currentStaff.name,role:currentStaff.role,openedAt:s.start,closedAt:null,orders:0,total:0});
+  saveDB();renderCashierTabs();renderCashierPanel();renderGrid();renderShiftLogs();toast('Cashier opened',currentStaff.name+' is on duty');
+}
+function closeCashier(){
+  const s=cashierSessions[currentStaff.id];s.open=false;
+  const log=shiftLogs.find(l=>l.id===s.logId);if(log){log.closedAt=Date.now();log.orders=s.orders;log.total=s.total;}
+  toast('Cashier closed',`${currentStaff.name} · ${s.orders} orders · ${s.total.toLocaleString()} RWF`);
+  cart=[];saveDB();renderCart();renderCashierTabs();renderCashierPanel();renderGrid();renderShiftLogs();
+}
 function tickCashiers(){if(!document.body)return;document.querySelectorAll('.cashier-tab').forEach(b=>{const s=cashierSessions[+b.dataset.id];const label=b.querySelector('span span');if(s?.open&&label)label.textContent='Open · '+elapsed(s.start);});const t=$('#cashierTimer');if(t)t.textContent=elapsed(cashierSessions[currentStaff.id]?.start);}
 
 /* ---- ORDERS ---- */
@@ -998,27 +1316,85 @@ function renderOrders(){
   const rows=orders.filter(o=>orderFilter==='all'||o.status===orderFilter);
   $('#ordersBody').innerHTML=rows.map(o=>{
     const n=o.items.reduce((s,i)=>s+i.qty,0),prev=o.items.map(i=>`${i.qty}× ${i.name}`).join(', ');
+    const progress=o.progress||'taken';
     return `<tr><td><span class="oid">${o.id}</span></td><td>${o.type}</td>
-      <td style="max-width:220px;color:var(--muted)">${n} items · <span style="color:var(--ink)">${prev}</span></td>
-      <td><div class="staff-mini"><span class="av" style="background:${o.sc}">${ini(o.staff)}</span>${o.staff}</div></td>
+      <td style="max-width:220px;color:var(--muted)">${n} items · <span style="color:var(--ink)">${prev}</span><br><span style="font-size:12px">Placed ${new Date(orderTime(o)).toLocaleString()}</span></td>
+      <td><div class="staff-mini"><span class="av" style="background:${o.sc||'#6C7480'}">${ini(o.responsible||o.staff||'Phone')}</span>${esc(o.responsible||o.staff)}${o.responsible?'<br><span style="font-size:11px;color:var(--muted)">responsible</span>':''}</div></td>
       <td>${o.pay}</td><td class="cell-amt">${o.total.toLocaleString()}</td>
-      <td><span class="tag ${o.status}">${o.status}</span></td>
-      <td><div class="row-actions">${o.status==='pending'?`<button class="mini-btn pay" onclick="markPaid('${o.id}')">Mark paid</button>`:''}
-      <button class="ico-mini" aria-label="print" onclick="toast('Printing','${o.id} sent to printer')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg></button></div></td></tr>`;
+      <td><span class="tag ${progress}">${progress}</span><br><span class="tag ${o.status}" style="margin-top:5px;display:inline-block">${o.status}</span></td>
+      <td><div class="row-actions">${progress!=='taken'?`<button class="mini-btn" onclick="setOrderProgress('${o.id}','taken')">Taken</button>`:''}${progress!=='preparing'?`<button class="mini-btn" onclick="setOrderProgress('${o.id}','preparing')">Preparing</button>`:''}${progress!=='ready'?`<button class="mini-btn pay" onclick="setOrderProgress('${o.id}','ready')">Ready</button>`:''}${o.status==='pending'?`<button class="mini-btn pay" onclick="markPaid('${o.id}')">Mark paid</button>`:''}<button class="mini-btn" onclick="openOrderChange('${o.id}')">Change</button>${o.status!=='refunded'?`<button class="mini-btn" onclick="openRefund('${o.id}')">Refund</button>`:''}
+      <button class="ico-mini" aria-label="print" onclick="printReceipt('${o.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7" rx="1"/></svg></button></div></td></tr>`;
   }).join('')||`<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:36px">No ${orderFilter} orders</td></tr>`;
   $('#cAll').textContent=orders.length;$('#cPending').textContent=orders.filter(o=>o.status==='pending').length;$('#cPaid').textContent=orders.filter(o=>o.status==='paid').length;
 }
-function markPaid(id){const o=orders.find(x=>x.id===id);if(o){o.status='paid';toast('Marked paid',id);renderOrders();refreshPending();}}
+function receiptHtml(o){
+  const lines=(o.items||[]).map(i=>`<div class="row"><span>${i.qty}x ${esc(i.name)}</span><b>${((i.lineTotal||((i.price||0)*i.qty))||0).toLocaleString()}</b></div>`).join('');
+  return `<!doctype html><html><head><title>${esc(o.id)} receipt</title><style>
+    @page{size:80mm auto;margin:4mm}*{box-sizing:border-box}body{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin:0;color:#111}.ticket{width:72mm;margin:0 auto}.logo{width:42px;height:42px;margin:0 auto 6px;display:grid;place-items:center}.logo img{max-width:100%;max-height:100%;object-fit:contain}.name{text-align:center;font:800 18px system-ui,sans-serif}.muted{text-align:center;color:#555;font-size:11px;margin-top:2px}.line{border-top:1px dashed #999;margin:10px 0}.row{display:flex;justify-content:space-between;gap:10px;margin:5px 0;font-size:12px}.row b{white-space:nowrap}.total{font-size:15px;font-weight:800}.foot{text-align:center;font-size:10px;color:#555;margin-top:10px}.qr{display:block;width:72px;height:72px;margin:8px auto 0}
+    @media print{button{display:none}}
+  </style></head><body><div class="ticket">
+    <div class="logo"><img src="${brand.logo||DEFAULT_MARK}" alt=""></div><div class="name">${esc(company.name||brand.name)}</div><div class="muted">${esc(company.phone||'')} ${company.address?'· '+esc(company.address):''}</div>
+    <div class="line"></div><div class="row"><span>Order</span><b>${esc(o.orderNo||o.id)}</b></div><div class="row"><span>Receipt</span><b>${esc(o.id)}</b></div><div class="row"><span>Date</span><b>${new Date(orderTime(o)).toLocaleString()}</b></div><div class="row"><span>Cashier</span><b>${esc(o.staff||currentStaff.name)}</b></div><div class="row"><span>Status</span><b>${esc(o.progress||o.status)}</b></div>
+    <div class="line"></div>${lines}<div class="line"></div><div class="row"><span>Subtotal</span><b>${(o.subtotal||0).toLocaleString()}</b></div><div class="row"><span>VAT 18%</span><b>${(o.vat||0).toLocaleString()}</b></div><div class="row total"><span>Total</span><b>${(o.total||0).toLocaleString()} RWF</b></div><div class="row"><span>Payment</span><b>${esc(o.pay||'')}</b></div>
+    <div class="line"></div><div class="foot">Scan to order again</div><img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=8&data=${encodeURIComponent(publicMenuUrl())}" alt="">
+    <div class="foot">Powered by QuickDash</div></div><script>window.onload=()=>setTimeout(()=>window.print(),250)<\/script></body></html>`;
+}
+function printReceipt(id){
+  const o=orders.find(x=>x.id===id);if(!o){toast('Receipt not found',id);return;}
+  const w=window.open('','_blank','width=380,height=680');
+  if(!w){toast('Printer blocked','Allow popups to print receipts');return;}
+  w.document.open();w.document.write(receiptHtml(o));w.document.close();
+  toast('Receipt opened',`${id} ready for printer`);
+}
+function setOrderProgress(id,progress){const o=orders.find(x=>x.id===id);if(o){o.progress=progress;o.progressUpdatedAt=Date.now();o.seenAt=o.seenAt||Date.now();o.responsible=o.responsible||currentStaff.name;o.responsibleId=o.responsibleId||currentStaff.id;o.sc=o.sc||currentStaff.color;saveDB();toast('Order '+progress,`${id} · ${o.responsible}`);renderOrders();refreshPending();}}
+function markPaid(id){const o=orders.find(x=>x.id===id);if(o){o.status='paid';o.paidAt=Date.now();saveDB();toast('Marked paid',id);renderOrders();refreshPending();renderReports();}}
+function recalcOrder(o){
+  o.items=(o.items||[]).filter(i=>(Number(i.qty)||0)>0).map(i=>({...i,qty:Number(i.qty)||1,lineTotal:(Number(i.price)||0)*(Number(i.qty)||1)}));
+  o.subtotal=o.items.reduce((s,i)=>s+(i.lineTotal||0),0);o.vat=Math.round(o.subtotal*.18);o.total=o.subtotal+o.vat;
+}
+function openOrderChange(id){
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  const rows=(o.items||[]).map((i,idx)=>`<div class="field"><label>${esc(i.name)} · ${Number(i.price||0).toLocaleString()} RWF</label><input type="number" min="0" id="chgQty${idx}" value="${i.qty}"></div>`).join('');
+  openModal('Change '+id,rows+`<div class="field"><label>Reason for change</label><input type="text" id="chgReason" placeholder="Customer changed order, item unavailable..."></div><div style="font-size:12px;color:var(--muted)">Set quantity to 0 to remove an item. QuickDash will keep an adjustment record.</div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveOrderChange('${id}')">Save change</button>`);
+}
+function saveOrderChange(id){
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  const before={items:(o.items||[]).map(i=>({...i})),subtotal:o.subtotal,vat:o.vat,total:o.total};
+  (o.items||[]).forEach((i,idx)=>i.qty=Math.max(0,Number($('#chgQty'+idx).value)||0));
+  recalcOrder(o);
+  o.adjustments=[...(o.adjustments||[]),{type:'change',at:Date.now(),staff:currentStaff.name,reason:$('#chgReason').value.trim()||'Order changed',before,after:{items:o.items.map(i=>({...i})),subtotal:o.subtotal,vat:o.vat,total:o.total}}];
+  saveDB();closeModal();renderOrders();renderReports();toast('Order changed',id);
+}
+function openRefund(id){
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  openModal('Refund '+id,`<div class="field"><label>Refund amount</label><input type="number" min="0" max="${o.total||0}" id="refundAmount" value="${o.total||0}"></div><div class="field"><label>Reason</label><input type="text" id="refundReason" placeholder="Wrong order, customer cancelled..."></div><div style="font-size:12px;color:var(--muted)">Refunds are saved as negative ledger adjustments so reports stay accurate.</div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveRefund('${id}')">Refund</button>`);
+}
+function saveRefund(id){
+  const o=orders.find(x=>x.id===id);if(!o)return;
+  const amount=Math.min(o.total||0,Math.max(0,Number($('#refundAmount').value)||0));
+  if(!amount){toast('Refund amount needed',id);return;}
+  o.status='refunded';o.refundAmount=amount;o.refundReason=$('#refundReason').value.trim()||'Refund';o.refundedAt=Date.now();
+  o.adjustments=[...(o.adjustments||[]),{type:'refund',at:o.refundedAt,staff:currentStaff.name,reason:o.refundReason,amount}];
+  saveDB();closeModal();renderOrders();refreshPending();renderReports();toast('Refund saved',`${id} · ${amount.toLocaleString()} RWF`);
+}
 document.querySelectorAll('#orderTabs .tab').forEach(t=>t.onclick=()=>{document.querySelectorAll('#orderTabs .tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');orderFilter=t.dataset.f;renderOrders();});
 function refreshPending(){const p=orders.filter(o=>o.status==='pending').length;$('#navPending').textContent=p;$('#navPending').style.display=p?'grid':'none';const dp=$('#dashPend');if(dp)dp.textContent=p;renderLiveOrders();}
 
 /* ---- DASHBOARD ---- */
 function renderChart2(){
-  const d=[{d:'Mon',v:312},{d:'Tue',v:398},{d:'Wed',v:487,on:true},{d:'Thu',v:300},{d:'Fri',v:360},{d:'Sat',v:452},{d:'Sun',v:280}];
-  const mx=Math.max(...d.map(x=>x.v));
-  const onI=d.findIndex(x=>x.on);
+  normalizeLedgerOrders();
+  const mode=$('#dashRange')?.value||'week', now=new Date();
+  const labels=mode==='month'?Array.from({length:new Date(now.getFullYear(),now.getMonth()+1,0).getDate()},(_,i)=>String(i+1)):mode==='day'?Array.from({length:8},(_,i)=>`${i*3}:00`):['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const d=labels.map((label,i)=>({d:label,v:0,on:false}));
+  ledgerLines().forEach(l=>{const dt=l.date;let idx=mode==='month'?dt.getDate()-1:mode==='day'?Math.floor(dt.getHours()/3):(dt.getDay()+6)%7;if(d[idx])d[idx].v+=l.lineTotal||0;});
+  const todayIdx=mode==='month'?now.getDate()-1:mode==='day'?Math.floor(now.getHours()/3):(now.getDay()+6)%7;if(d[todayIdx])d[todayIdx].on=true;
+  const mx=Math.max(1,...d.map(x=>Math.abs(x.v)));
+  const onI=Math.max(0,d.findIndex(x=>x.on));
   const tipLeft=((onI+0.5)/d.length*100).toFixed(1);
-  $('#chart2').innerHTML=`<div class="tip" style="left:${tipLeft}%">486,500 RWF <small>· today</small></div>`+
+  const total=d.reduce((s,x)=>s+x.v,0);$('#chartTrend').textContent=`${mode} · ${fmt(total)}`;
+  $('#chart2').innerHTML=`<div class="tip" style="left:${tipLeft}%">${fmt(d[onI]?.v||0)} <small>· ${d[onI]?.d||''}</small></div>`+
     d.map(x=>`<div class="bw"><div class="bcol"><div class="bar ${x.on?'on':''}" data-h="${(x.v/mx*100).toFixed(0)}" style="height:0"></div></div><span class="d">${x.d}</span></div>`).join('');
   requestAnimationFrame(()=>document.querySelectorAll('#chart2 .bar').forEach(b=>b.style.height=b.dataset.h+'%'));
 }
@@ -1049,25 +1425,88 @@ function renderShifts(){
       <span class="tag ${status}">${lbl}</span></div>`;
   }).join('');
 }
+function moveCalendar(delta){calendarCursor=new Date(calendarCursor.getFullYear(),calendarCursor.getMonth()+delta,1);renderCalendar();}
 function renderCalendar(){
-  const y=2026,m=6; // July 2026
-  const first=new Date(y,m,1).getDay(); // Wed = 3
+  const y=calendarCursor.getFullYear(),m=calendarCursor.getMonth();
+  $('#calLabel').textContent=calendarCursor.toLocaleString(undefined,{month:'long',year:'numeric'});
+  const first=new Date(y,m,1).getDay();
   const dim=new Date(y,m+1,0).getDate();
   const prevDim=new Date(y,m,0).getDate();
   const dow=['S','M','T','W','T','F','S'];
   let html=dow.map(d=>`<span class="dow">${d}</span>`).join('');
   for(let i=first-1;i>=0;i--) html+=`<span class="day mut">${prevDim-i}</span>`;
   for(let d=1;d<=dim;d++){
-    const today=d===1;
+    const realToday=new Date(),today=d===realToday.getDate()&&m===realToday.getMonth()&&y===realToday.getFullYear();
     html+=`<span class="day ${today?'today':''}">${d}</span>`;
   }
   const filled=first+dim, tail=(7-filled%7)%7;
   for(let d=1;d<=tail;d++) html+=`<span class="day mut">${d}</span>`;
   $('#calGrid').innerHTML=html;
 }
-function renderRepCats(){
-  const c=[{n:'Coffee',v:1180000,w:100},{n:'Food',v:940000,w:80},{n:'Pastries',v:510000,w:43},{n:'Cold Drinks',v:310000,w:26}];
-  $('#repCats').innerHTML=`<div style="display:flex;flex-direction:column;gap:15px">`+c.map(x=>`<div><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px">${x.n}<span class="money" style="color:var(--muted);font-size:12px">${x.v.toLocaleString()}</span></div><div class="track"><i style="width:${x.w}%;background:${catColor(x.n)}"></i></div></div>`).join('')+`</div>`;
+function normalizeLedgerOrders(){
+  const now=Date.now();
+  orders.forEach((o,i)=>{
+    if(!o.createdAt)o.createdAt=now-(i*3600000);
+    const seq=Number(String(o.id||'').replace(/\D/g,''))||orderSeq+i;
+    if(!o.orderNo)o.orderNo=makeOrderNo(seq,new Date(o.createdAt));
+    o.items=(o.items||[]).map(it=>{
+      const found=menuLookup(it.name);
+      const qty=Number(it.qty)||1, price=Number(it.price ?? found.price ?? Math.round((o.total||0)/Math.max(1,(o.items||[]).length)/qty));
+      const cat=it.cat||found.cat||'Uncategorized';
+      return {...it,qty,price,cat,section:it.section||sectionFor(cat),lineTotal:Number(it.lineTotal ?? price*qty)};
+    });
+    const sub=o.items.reduce((s,it)=>s+(it.lineTotal||0),0);
+    if(!o.subtotal)o.subtotal=sub;if(!o.vat)o.vat=Math.max(0,(o.total||0)-sub);if(!o.total)o.total=sub+o.vat;
+  });
+}
+function ledgerPeriod(){
+  const mode=$('#ledgerRange')?.value||'week';
+  const base=new Date(($('#ledgerDate')?.value)||ymd(new Date()));
+  let start=new Date(base),end=new Date(base);
+  if(mode==='week'){const day=(base.getDay()+6)%7;start=new Date(base);start.setDate(base.getDate()-day);end=new Date(start);end.setDate(start.getDate()+6);}
+  if(mode==='month'){start=new Date(base.getFullYear(),base.getMonth(),1);end=new Date(base.getFullYear(),base.getMonth()+1,0);}
+  start.setHours(0,0,0,0);end.setHours(23,59,59,999);
+  return {mode,start,end,label:`${start.toLocaleDateString()} - ${end.toLocaleDateString()}`};
+}
+function ledgerOrders(){
+  const p=ledgerPeriod();
+  return orders.filter(o=>['paid','refunded'].includes(o.status)&&orderTime(o)>=p.start.getTime()&&orderTime(o)<=p.end.getTime()).sort((a,b)=>orderTime(a)-orderTime(b));
+}
+function ledgerLines(){
+  const q=($('#ledgerOrderSearch')?.value||'').trim().toLowerCase();
+  return ledgerOrders().filter(o=>!q||String(o.id).toLowerCase().includes(q)||String(o.orderNo||'').toLowerCase().includes(q)||(o.items||[]).some(i=>String(i.name).toLowerCase().includes(q))).flatMap(o=>{
+    const sale=(o.items||[]).map(it=>({order:o,item:it,date:new Date(orderTime(o)),section:it.section||sectionFor(it.cat),cat:it.cat||'Uncategorized',lineTotal:it.lineTotal||((it.price||0)*(it.qty||1))}));
+    const refunds=(o.adjustments||[]).filter(a=>a.type==='refund').map(a=>({order:o,item:{name:'REFUND - '+(a.reason||'Refund'),qty:1,price:-(a.amount||0)},date:new Date(a.at||o.refundedAt||orderTime(o)),section:'Refund',cat:'Refund',lineTotal:-(a.amount||0)}));
+    return [...sale,...refunds];
+  });
+}
+function sumBy(rows,key){return rows.reduce((m,r)=>{const k=typeof key==='function'?key(r):r[key];m[k]=(m[k]||0)+(r.lineTotal||0);return m;},{});}
+function renderReports(){
+  if(!$('#ledgerRevenue'))return;
+  normalizeLedgerOrders();
+  const p=ledgerPeriod(),o=ledgerOrders(),lines=ledgerLines();
+  const revenue=lines.reduce((s,l)=>s+(l.lineTotal||0),0),drink=lines.filter(l=>l.section==='Drinks').reduce((s,l)=>s+l.lineTotal,0),food=lines.filter(l=>l.section==='Food').reduce((s,l)=>s+l.lineTotal,0);
+  const itemQty=lines.reduce((m,l)=>{m[l.item.name]=(m[l.item.name]||0)+(l.item.qty||0);return m;},{});
+  const top=Object.entries(itemQty).sort((a,b)=>b[1]-a[1])[0];
+  $('#ledgerPeriodLabel').textContent='Revenue · '+p.label;$('#ledgerRevenue').innerHTML=`${revenue.toLocaleString()}<em>RWF</em>`;
+  $('#ledgerMeta').innerHTML=`${o.length} orders · <b>${lines.length}</b> ledger lines`;
+  $('#drinkSales').textContent=drink.toLocaleString();$('#foodSales').textContent=food.toLocaleString();$('#topLedgerItem').textContent=top?top[0]:'None';
+  $('#ledgerLineCount').textContent=lines.length+' lines';
+  const catTotals=sumBy(lines,l=>l.cat),mx=Math.max(1,...Object.values(catTotals));
+  $('#repCats').innerHTML=Object.keys(catTotals).length?`<div style="display:flex;flex-direction:column;gap:15px">`+Object.entries(catTotals).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<div><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600;margin-bottom:6px">${esc(n)}<span class="money" style="color:var(--muted);font-size:12px">${v.toLocaleString()}</span></div><div class="track"><i style="width:${Math.round(v/mx*100)}%;background:${catColor(n)}"></i></div></div>`).join('')+`</div>`:`<div style="color:var(--muted);font-size:13px">No paid orders in this period.</div>`;
+  const payTotals=o.reduce((m,x)=>{m[x.pay]=(m[x.pay]||0)+(x.total||0);return m;},{});
+  $('#repPayments').innerHTML=Object.keys(payTotals).length?Object.entries(payTotals).sort((a,b)=>b[1]-a[1]).map(([n,v])=>`<div style="display:flex;align-items:center;gap:10px;font-size:13px;margin-bottom:12px"><span style="width:11px;height:11px;border-radius:3px;background:var(--accent)"></span>${esc(n)}<b class="money" style="margin-left:auto">${v.toLocaleString()} RWF</b></div>`).join(''):`<div style="color:var(--muted);font-size:13px">No payments yet.</div>`;
+  $('#ledgerBody').innerHTML=lines.length?lines.map(l=>`<tr><td>${esc(l.order.orderNo||l.order.id)}</td><td>${l.date.toLocaleString()}</td><td>${esc(l.section)}</td><td>${esc(l.cat)}</td><td>${esc(l.item.name)}</td><td>${l.item.qty}</td><td class="money">${l.lineTotal.toLocaleString()}</td></tr>`).join(''):`<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:28px">No paid orders in this period.</td></tr>`;
+}
+function downloadLedgerExcel(){
+  normalizeLedgerOrders();
+  const p=ledgerPeriod(),o=ledgerOrders(),lines=ledgerLines();
+  const drink=lines.filter(l=>l.section==='Drinks').reduce((s,l)=>s+l.lineTotal,0),food=lines.filter(l=>l.section==='Food').reduce((s,l)=>s+l.lineTotal,0),revenue=lines.reduce((s,l)=>s+(l.lineTotal||0),0);
+  const rows=lines.map(l=>`<tr><td>${esc(l.order.orderNo||l.order.id)}</td><td>${esc(l.order.id)}</td><td>${l.date.toLocaleString()}</td><td>${esc(l.order.staff)}</td><td>${esc(l.order.pay)}</td><td>${esc(l.section)}</td><td>${esc(l.cat)}</td><td>${esc(l.item.name)}</td><td>${l.item.qty}</td><td>${l.item.price||0}</td><td>${l.lineTotal}</td><td>${l.order.subtotal||0}</td><td>${l.order.vat||0}</td><td>${l.order.total||0}</td></tr>`).join('');
+  const html=`<html><head><meta charset="utf-8"></head><body><h2>${esc(company.name||brand.name)} Sales Ledger</h2><p>${p.label}</p><table border="1"><tr><th>Total Revenue</th><th>Orders</th><th>Ledger Lines</th><th>Drinks</th><th>Food</th></tr><tr><td>${revenue}</td><td>${o.length}</td><td>${lines.length}</td><td>${drink}</td><td>${food}</td></tr></table><br><table border="1"><tr><th>Order Number</th><th>Receipt ID</th><th>Date</th><th>Cashier</th><th>Payment</th><th>Section</th><th>Category</th><th>Item</th><th>Qty</th><th>Unit Price</th><th>Line Total</th><th>Order Subtotal</th><th>VAT</th><th>Order Total</th></tr>${rows}</table></body></html>`;
+  const blob=new Blob([html],{type:'application/vnd.ms-excel'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=`quickdash-sales-ledger-${p.mode}-${ymd(p.start)}.xls`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(a.href);
+  toast('Ledger downloaded',`${o.length} orders · ${lines.length} lines`);
 }
 
 /* ---- MENU BUILDER ---- */
@@ -1080,14 +1519,75 @@ function renderRail(){
 function renderMenuItems(){
   const items=MENU.filter(m=>m.cat===menuCat);
   $('#menuItems').innerHTML=items.length?items.map(m=>`<div class="mrow">${itemThumb(m,'mt')}
-    <div class="mi"><b>${esc(m.name)}</b><span>${esc(m.cat)}${m.image?' · image menu ready':''}</span></div><div class="mp">${m.price.toLocaleString()} RWF</div>
+    <div class="mi"><b>${esc(m.name)}</b><span>${esc(m.cat)}${m.image?' · image menu ready':''}${promoActive(m)?' · promo live':''}</span></div><div class="mp">${priceText(m)} RWF</div>
     <label class="switch" title="Available"><input type="checkbox" ${m.out?'':'checked'} onchange="toggleItem(${m.id},this.checked)"><span class="slider"></span></label>
     <button class="ico-mini" aria-label="edit" onclick="openItemModal(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
     <button class="ico-mini danger" aria-label="delete" onclick="delItem(${m.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/></svg></button></div>`).join('')
     :`<div style="padding:40px;text-align:center;color:var(--muted)">No items in ${menuCat} yet.<br><button class="btn btn-ghost" style="margin-top:12px" onclick="openItemModal()">Add the first one</button></div>`;
+  renderPromos();
 }
-function toggleItem(id,av){const m=MENU.find(x=>x.id===id);m.out=!av;toast(av?'Back on menu':'Marked sold out',m.name);if(activeCat==='All'||activeCat===m.cat)renderGrid();}
-function delItem(id){const m=MENU.find(x=>x.id===id);MENU=MENU.filter(x=>x.id!==id);toast('Item removed',m.name);renderRail();renderMenuItems();renderGrid();renderDigitalMenu();}
+function toggleItem(id,av){const m=MENU.find(x=>x.id===id);m.out=!av;saveDB();toast(av?'Back on menu':'Marked sold out',m.name);if(activeCat==='All'||activeCat===m.cat)renderGrid();renderDigitalMenu();}
+function delItem(id){const m=MENU.find(x=>x.id===id);MENU=MENU.filter(x=>x.id!==id);saveDB();toast('Item removed',m.name);renderRail();renderMenuItems();renderGrid();renderDigitalMenu();}
+function promoStatus(m){
+  if(!m.promoPrice)return {label:'No promo',cls:'',detail:'Regular price only'};
+  if(promoActive(m))return {label:'Live promo',cls:'live',detail:m.promoUntil?'Auto-removes from live price after '+new Date(m.promoUntil).toLocaleString():'No end time set'};
+  return {label:'Expired',cls:'',detail:'Promo is past its end time and hidden from the live menu'};
+}
+function renderPromos(){
+  const box=$('#promoGrid');if(!box)return;
+  const promoItems=MENU.filter(m=>m.promoPrice||m.cat===menuCat).sort((a,b)=>(promoActive(b)?1:0)-(promoActive(a)?1:0)||a.cat.localeCompare(b.cat));
+  box.innerHTML=promoItems.length?promoItems.map(m=>{
+    const st=promoStatus(m);
+    return `<article class="promo-card ${st.cls}">
+      <div class="top"><div><b>${esc(m.name)}</b><span>${esc(m.cat)} · ${esc(st.detail)}</span></div><span class="tag ${promoActive(m)?'paid':'pending'}">${esc(st.label)}</span></div>
+      <div class="prices">${m.promoPrice?`${Number(m.promoPrice).toLocaleString()} RWF <small>${Number(m.price).toLocaleString()} RWF</small>`:`${Number(m.price).toLocaleString()} RWF`}</div>
+      <div class="promo-actions">
+        <button class="mini-btn" onclick="openPromoModal(${m.id})">${m.promoPrice?'Edit promo':'Add promo'}</button>
+        ${m.promoPrice?`<button class="mini-btn" onclick="clearPromo(${m.id})">Clear promo</button>`:''}
+      </div>
+    </article>`;
+  }).join(''):`<div class="promo-empty">Choose a menu item and add a promo price. Active promos show on the POS and customer phone menu automatically.</div>`;
+}
+function openPromoModal(id){
+  const options=MENU.map(m=>`<option value="${m.id}" ${id===m.id?'selected':''}>${esc(m.name)} · ${esc(m.cat)} · ${Number(m.price).toLocaleString()} RWF</option>`).join('');
+  const m=id?MENU.find(x=>x.id===id):MENU.find(x=>x.cat===menuCat)||MENU[0];
+  openModal('Menu promo',
+    `<div class="field"><label>Menu item</label><select id="promoItem" style="width:100%;height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px">${options}</select></div>
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+       <div class="field"><label>Promo price (RWF)</label><input type="text" id="promoPrice" value="${m?.promoPrice||''}" placeholder="2500"></div>
+       <div class="field"><label>Remove after</label><input type="datetime-local" id="promoUntil" value="${m?.promoUntil||''}" style="height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px"></div>
+     </div>
+     <div style="font-size:12px;color:var(--muted);line-height:1.5">The countdown is not shown to guests. When the end time passes, QuickDash hides the promo price and returns to the normal price.</div>`,
+    `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="savePromo()">Save promo</button>`);
+}
+function savePromo(){
+  const m=MENU.find(x=>x.id===Number($('#promoItem').value)),promo=parseInt(($('#promoPrice').value||'').replace(/\D/g,'')),until=$('#promoUntil').value;
+  if(!m||!promo){toast('Promo needs a price','Choose an item and add the promo price');return;}
+  if(promo>=Number(m.price)){toast('Promo should be lower','Make the promo price less than the regular price');return;}
+  m.promoPrice=promo;m.promoUntil=until||'';saveDB();closeModal();renderMenuItems();renderGrid();renderDigitalMenu();toast('Promo live',`${m.name} · ${promo.toLocaleString()} RWF`);
+}
+function clearPromo(id){
+  const m=MENU.find(x=>x.id===id);if(!m)return;
+  m.promoPrice=null;m.promoUntil='';saveDB();renderMenuItems();renderGrid();renderDigitalMenu();toast('Promo removed',m.name);
+}
+function importMenuCsv(input){
+  const f=input.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const rows=String(e.target.result).split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+    let added=0;
+    rows.slice(rows[0]?.toLowerCase().includes('name')?1:0).forEach(row=>{
+      const [name,cat='Imported',priceRaw='0',promoRaw='',until='']=row.split(',').map(x=>x.trim());
+      const price=parseInt(String(priceRaw).replace(/\D/g,''));if(!name||!price)return;
+      if(!categories.some(c=>c.name===cat))categories.push({name:cat,color:PALETTE[categories.length%PALETTE.length]});
+      MENU.push({id:itemSeq++,name,cat,price,promoPrice:parseInt(String(promoRaw).replace(/\D/g,''))||null,promoUntil:until});
+      added++;
+    });
+    saveDB();renderRail();renderMenuItems();renderCats();renderGrid();renderDigitalMenu();toast('Menu imported',`${added} items added`);
+    input.value='';
+  };
+  r.readAsText(f);
+}
 
 /* ---- MODALS ---- */
 let modalColor=PALETTE[0];
@@ -1105,15 +1605,19 @@ function openItemModal(id){
        <div class="field"><label>Price (RWF)</label><input type="text" id="fPrice" value="${m?m.price:''}" placeholder="3000"></div>
        <div class="field"><label>Category</label><select id="fCat" style="width:100%;height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px">${catOpts}</select></div>
      </div>
+     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+       <div class="field"><label>Promo price (optional)</label><input type="text" id="fPromo" value="${m?.promoPrice||''}" placeholder="2500"></div>
+       <div class="field"><label>Remove promo after</label><input type="datetime-local" id="fPromoUntil" value="${m?.promoUntil||''}" style="height:40px;border:1px solid var(--line);border-radius:9px;padding:0 10px"></div>
+     </div>
      <div class="field"><label>Food image</label><div class="img-preview" id="itemImgPreview">${itemImageDraft?`<img src="${itemImageDraft}" alt="">`:'Add a photo and QuickDash will use it in the image menu'}</div><input type="file" id="fImage" accept="image/*" style="margin-top:9px;font-size:12px" onchange="previewItemImage(this)"></div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveItem(${id||0})">${m?'Save changes':'Add item'}</button>`);
 }
 function saveItem(id){
-  const name=$('#fName').value.trim(),price=parseInt(($('#fPrice').value||'').replace(/\D/g,'')),cat=$('#fCat').value;
+  const name=$('#fName').value.trim(),price=parseInt(($('#fPrice').value||'').replace(/\D/g,'')),cat=$('#fCat').value,promo=parseInt(($('#fPromo').value||'').replace(/\D/g,'')),promoUntil=$('#fPromoUntil').value;
   if(!name||!price){toast('Missing details','Add a name and price');return;}
-  if(id){const m=MENU.find(x=>x.id===id);m.name=name;m.price=price;m.cat=cat;m.image=itemImageDraft;toast('Item updated',name);}
-  else{MENU.push({id:itemSeq++,name,price,cat,image:itemImageDraft});toast('Item added',name+' · '+fmt(price));}
-  menuCat=cat;closeModal();renderRail();renderMenuItems();renderGrid();renderDigitalMenu();
+  if(id){const m=MENU.find(x=>x.id===id);m.name=name;m.price=price;m.cat=cat;m.image=itemImageDraft;m.promoPrice=promo||null;m.promoUntil=promoUntil||'';toast('Item updated',name);}
+  else{MENU.push({id:itemSeq++,name,price,cat,image:itemImageDraft,promoPrice:promo||null,promoUntil:promoUntil||''});toast('Item added',name+' · '+fmt(price));}
+  menuCat=cat;saveDB();closeModal();renderRail();renderMenuItems();renderGrid();renderDigitalMenu();
 }
 function previewItemImage(input){
   const f=input.files[0];if(!f)return;
@@ -1129,7 +1633,7 @@ function openCatModal(){
     `<button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveCat()">Add category</button>`);
   document.querySelectorAll('#colorRow .color-opt').forEach(b=>b.onclick=()=>{document.querySelectorAll('#colorRow .color-opt').forEach(x=>x.classList.remove('on'));b.classList.add('on');modalColor=b.dataset.c;});
 }
-function saveCat(){const n=$('#cName').value.trim();if(!n){toast('Name needed','Give the category a name');return;}categories.push({name:n,color:modalColor});menuCat=n;closeModal();renderRail();renderMenuItems();renderCats();renderDigitalMenu();toast('Category added',n);}
+function saveCat(){const n=$('#cName').value.trim();if(!n){toast('Name needed','Give the category a name');return;}categories.push({name:n,color:modalColor});menuCat=n;saveDB();closeModal();renderRail();renderMenuItems();renderCats();renderDigitalMenu();toast('Category added',n);}
 
 function renderMenuDesignerControls(){
   const sel=$('#menuPreviewCat');if(!sel)return;
@@ -1142,26 +1646,64 @@ function renderDigitalMenu(){
   const items=MENU.filter(m=>!m.out&&(menuDesign.cat==='All'||m.cat===menuDesign.cat));
   box.classList.toggle('light',menuDesign.theme==='light');
   const title=menuDesign.cat==='All'?"Today's menu":menuDesign.cat;
-  const hero=`<div class="menu-hero"><h2>${esc(brand.name)}</h2><span>${esc(title)} · ${esc(brand.tag)}</span></div>`;
+  const hero=`<div class="menu-hero"><div class="menu-brand"><div class="menu-logo"><img src="${brand.logo||DEFAULT_MARK}" alt=""></div><div><div class="menu-kicker">${esc(possessive(brand.name))} menu</div><h2>${esc(brand.name)}</h2></div></div><span>${esc(title)} · ${esc(brand.tag)}</span></div>`;
   if(menuDesign.mode==='images'){
-    box.innerHTML=hero+`<div class="image-strip">${items.map(m=>`<article class="image-card"><div class="pic">${m.image?`<img src="${m.image}" alt="">`:ini(m.name)}</div><div class="info"><b>${esc(m.name)}</b><span>${m.price.toLocaleString()} RWF</span></div></article>`).join('')||'<div style="padding:24px;color:var(--muted)">Add items to preview the image menu.</div>'}</div>`;
+    box.innerHTML=hero+`<div class="image-strip">${items.map(m=>`<article class="image-card"><div class="pic">${m.image?`<img src="${m.image}" alt="">`:ini(m.name)}</div><div class="info"><b>${esc(m.name)}</b><span>${priceText(m)} RWF</span></div></article>`).join('')||'<div style="padding:24px;color:var(--muted)">Add items to preview the image menu.</div>'}</div>`;
     renderPhoneMenu();
     return;
   }
   const groups=(menuDesign.cat==='All'?categories.map(c=>c.name):[menuDesign.cat]).map(c=>({cat:c,items:items.filter(m=>m.cat===c)})).filter(g=>g.items.length);
-  box.innerHTML=hero+`<div class="fancy-list">${groups.map(g=>`<section class="fancy-cat"><h3>${esc(g.cat)}</h3>${g.items.map(m=>`<div class="fancy-item"><b>${esc(m.name)}</b><span>${m.price.toLocaleString()}</span></div>`).join('')}</section>`).join('')||'<div style="padding:24px;color:var(--muted)">Add menu items to build the digital menu.</div>'}</div>`;
+  box.innerHTML=hero+`<div class="fancy-list">${groups.map(g=>`<section class="fancy-cat"><h3>${esc(g.cat)}</h3>${g.items.map(m=>`<div class="fancy-item"><b>${esc(m.name)}</b><span>${priceText(m)}</span></div>`).join('')}</section>`).join('')||'<div style="padding:24px;color:var(--muted)">Add menu items to build the digital menu.</div>'}</div>`;
   renderPhoneMenu();
 }
 function renderPhoneMenu(){
   const box=$('#phoneMenuPreview');if(!box)return;
+  renderMenuQr();
   const items=MENU.filter(m=>!m.out);
-  const hero=`<div class="menu-hero"><h2>${esc(brand.name)}</h2><span>${esc(brand.tag)} · Tap a category or swipe dishes</span></div>`;
+  const name=company.name||brand.name;
+  const hero=`<div class="menu-hero"><div class="menu-brand"><div class="menu-logo"><img src="${brand.logo||DEFAULT_MARK}" alt=""></div><div><div class="menu-kicker">${esc(possessive(name))} menu</div><h2>${esc(name)}</h2></div></div><span>${esc(company.about||brand.tag)} · Tap an item to order</span></div>`;
   if(menuDesign.mode==='images'){
-    box.innerHTML=hero+`<div class="image-strip">${items.map(m=>`<article class="image-card"><div class="pic">${m.image?`<img src="${m.image}" alt="">`:ini(m.name)}</div><div class="info"><b>${esc(m.name)}</b><span>${m.price.toLocaleString()} RWF</span></div></article>`).join('')}</div>`;
+    box.innerHTML=hero+`<div class="image-strip">${items.map(m=>`<article class="image-card"><div class="pic">${m.image?`<img src="${m.image}" alt="">`:ini(m.name)}</div><div class="info"><b>${esc(m.name)}</b><span>${priceText(m)} RWF</span></div></article>`).join('')}</div>`;
   }else{
     const groups=categories.map(c=>({cat:c.name,items:items.filter(m=>m.cat===c.name)})).filter(g=>g.items.length);
-    box.innerHTML=hero+`<div class="fancy-list">${groups.map(g=>`<section class="fancy-cat"><h3>${esc(g.cat)}</h3>${g.items.map(m=>`<div class="fancy-item"><b>${esc(m.name)}</b><span>${m.price.toLocaleString()}</span></div>`).join('')}</section>`).join('')}</div>`;
+    box.innerHTML=hero+`<div class="fancy-list">${groups.map(g=>`<section class="fancy-cat"><h3>${esc(g.cat)}</h3>${g.items.map(m=>`<div class="fancy-item"><b>${esc(m.name)}</b><span>${priceText(m)}</span></div>`).join('')}</section>`).join('')}</div>`;
   }
+}
+function publicMenuUrl(){
+  const base=location.href.split('#')[0].replace(/[^/]*$/,'');
+  return new URL('menu.html',base).href;
+}
+function renderMenuQr(){
+  const link=$('#publicMenuLink'),img=$('#menuQrImg');if(!link||!img)return;
+  const url=publicMenuUrl();
+  link.value=url;
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=360x360&margin=12&data='+encodeURIComponent(url);
+}
+async function copyMenuLink(){
+  const url=publicMenuUrl();
+  try{await navigator.clipboard.writeText(url);}
+  catch(e){const input=$('#publicMenuLink');input.select();document.execCommand('copy');}
+  toast('Menu link copied','This opens only the customer menu');
+}
+
+/* ---- COMPANY ---- */
+function renderCompanyProfile(){
+  $('#companyNameInput').value=company.name||'';$('#companyPhoneInput').value=company.phone||'';$('#companyEmailInput').value=company.email||'';$('#companyAddressInput').value=company.address||'';$('#companyAboutInput').value=company.about||'';
+  $('#companyHero').innerHTML=company.cover?`<img src="${company.cover}" alt="">`:`<div class="placeholder"><b>${esc(company.name||brand.name)}</b><span>${esc(company.about||brand.tag)}</span></div>`;
+  $('#companyGallery').innerHTML=(company.gallery||[]).length?company.gallery.map(src=>`<div class="shot"><img src="${src}" alt=""></div>`).join(''):`<div class="shot">No photos</div><div class="shot">Add gallery</div><div class="shot">Show space</div>`;
+  $('#companySummary').innerHTML=`<h3>${esc(company.name||brand.name)}</h3><p>${esc(company.about||brand.tag)}</p><div class="company-meta"><span>Phone <b>${esc(company.phone||'Not set')}</b></span><span>Email <b>${esc(company.email||'Not set')}</b></span><span>Address <b>${esc(company.address||'Not set')}</b></span><span>Menu items <b>${MENU.filter(m=>!m.out).length}</b></span></div>`;
+  renderShiftLogs();
+}
+function saveCompanyProfile(){
+  company.name=$('#companyNameInput').value.trim()||brand.name;company.phone=$('#companyPhoneInput').value.trim();company.email=$('#companyEmailInput').value.trim();company.address=$('#companyAddressInput').value.trim();company.about=$('#companyAboutInput').value.trim();
+  brand.name=company.name;$('#nameInput').value=brand.name;saveDB();applyBrandText();renderCompanyProfile();toast('Company saved','Profile and phone menu updated');
+}
+function uploadCompanyCover(input){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{company.cover=e.target.result;saveDB();renderCompanyProfile();toast('Cover added','Company profile updated');};r.readAsDataURL(f);}
+function uploadCompanyGallery(input){const files=[...input.files];if(!files.length)return;let left=files.length;files.forEach(f=>{const r=new FileReader();r.onload=e=>{company.gallery=[...(company.gallery||[]),e.target.result].slice(-9);if(--left===0){saveDB();renderCompanyProfile();toast('Photos added','Gallery updated');}};r.readAsDataURL(f);});}
+function renderShiftLogs(){
+  const body=$('#shiftLogBody');if(!body)return;
+  $('#shiftLogCount').textContent=shiftLogs.length+' shifts';
+  body.innerHTML=shiftLogs.length?shiftLogs.map(l=>`<tr><td>${esc(l.staff)}<br><span style="color:var(--muted);font-size:12px">${esc(l.role||'')}</span></td><td>${new Date(l.openedAt).toLocaleString()}</td><td>${l.closedAt?new Date(l.closedAt).toLocaleString():'Open now'}</td><td>${l.closedAt?duration(l.closedAt-l.openedAt):elapsed(l.openedAt)}</td><td>${l.orders||0}</td><td class="money">${(l.total||0).toLocaleString()}</td></tr>`).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:28px">No cashier shifts yet. Open a cashier to start logging.</td></tr>`;
 }
 
 /* ---- STAFF ---- */
@@ -1170,19 +1712,20 @@ function renderStaff(){
   $('#staffGrid').innerHTML=staff.map(s=>`<div class="staff-card"><div class="top"><span class="av" style="background:${s.color}">${ini(s.name)}</span>
     <div><b>${esc(s.name)}</b><span class="role ${s.role.toLowerCase()}">${esc(s.role)}</span><div class="access-note">${s.role==='Owner'?'Full access':'Defaults to POS and Orders only'}</div></div></div>
     <div class="meta"><span>PIN <b class="pin">${s.pin}</b></span>
-      <label class="switch" title="Can sign in"><input type="checkbox" ${s.active?'checked':''} onchange="toggleStaff(${s.id},this.checked)"><span class="slider"></span></label></div>
+      <div style="display:flex;align-items:center;gap:8px"><label class="switch" title="Can sign in"><input type="checkbox" ${s.active?'checked':''} onchange="toggleStaff(${s.id},this.checked)"><span class="slider"></span></label>${s.role!=='Owner'?`<button class="ico-mini danger" aria-label="remove" onclick="removeStaff(${s.id})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M6 7l1 13a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-13"/></svg></button>`:''}</div></div>
     <div class="perm-grid">${ALL_ACCESS.map(v=>{
       const fixed=BASE_ACCESS.includes(v)||s.role==='Owner';
       const on=s.permissions.includes(v);
       return `<label class="perm-pill ${on?'on':''}"><input type="checkbox" ${on?'checked':''} ${fixed?'disabled':''} onchange="togglePermission(${s.id},'${v}',this.checked)"> ${ACCESS_LABELS[v]}</label>`;
     }).join('')}</div></div>`).join('');
 }
-function toggleStaff(id,a){const s=staff.find(x=>x.id===id);s.active=a;if(!a&&s.id===currentStaff.id){currentStaff=staff.find(x=>x.active)||staff[0];applyStaff();}toast(a?'Access on':'Access off',s.name);}
+function toggleStaff(id,a){const s=staff.find(x=>x.id===id);s.active=a;if(!a&&s.id===currentStaff.id){currentStaff=staff.find(x=>x.active)||staff[0];applyStaff();}saveDB();renderLoginUsers();toast(a?'Access on':'Access off',s.name);}
+function removeStaff(id){const s=staff.find(x=>x.id===id);if(!s||s.role==='Owner')return;staff=staff.filter(x=>x.id!==id);if(currentStaff.id===id){currentStaff=staff.find(x=>x.active)||staff[0];applyStaff();}saveDB();renderStaff();renderLoginUsers();renderCashierTabs();toast('Employee removed',s.name);}
 function togglePermission(id,view,on){
   const s=staff.find(x=>x.id===id);if(!s)return;normalizePermissions(s);
   if(on&&!s.permissions.includes(view))s.permissions.push(view);
   if(!on&&!BASE_ACCESS.includes(view)&&s.role!=='Owner')s.permissions=s.permissions.filter(v=>v!==view);
-  renderStaff();updateNavAccess();
+  saveDB();renderStaff();updateNavAccess();
   if(s.id===currentStaff.id&&!canAccess(document.querySelector('.view.active')?.id?.replace('v-','')||'pos'))go(firstAllowedView());
   toast('Access updated',`${s.name} · ${ACCESS_LABELS[view]}`);
 }
@@ -1199,20 +1742,14 @@ function openStaffModal(){
 function saveStaff(){const n=$('#sName').value.trim();if(!n){toast('Name needed','Add a name');return;}
   const pin=String(Math.floor(1000+Math.random()*9000));
   const role=$('#sRole').value;
-  staff.push({id:staffSeq++,name:n,role,color:staffColor,pin,active:true,permissions:role==='Owner'?[...ALL_ACCESS]:[...BASE_ACCESS]});closeModal();renderStaff();updateNavAccess();toast('Staff added',n+' · PIN '+pin);}
+  staff.push({id:staffSeq++,name:n,role,color:staffColor,pin,active:true,permissions:role==='Owner'?[...ALL_ACCESS]:[...BASE_ACCESS]});saveDB();closeModal();renderStaff();renderLoginUsers();updateNavAccess();toast('Staff added',n+' · PIN '+pin);}
 
 function openStaffPicker(){
   openModal('Who’s serving?',
     `<div class="staff-pick">`+staff.filter(s=>s.active).map(s=>`<button class="${s.id===currentStaff.id?'cur':''}" onclick="setStaff(${s.id})"><span class="av" style="background:${s.color}">${ini(s.name)}</span><span><b>${s.name}</b><span>${s.role}</span></span>${s.id===currentStaff.id?'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.6" style="margin-left:auto"><path d="M20 6 9 17l-5-5"/></svg>':''}</button>`).join('')+`</div>`,
     `<button class="btn btn-ghost" onclick="closeModal()">Close</button>${canAccess('staff')?'<button class="btn btn-primary" onclick="closeModal();go(&quot;staff&quot;)">Manage staff</button>':''}`);
 }
-function setStaff(id){
-  currentStaff=staff.find(x=>x.id===id);normalizePermissions(currentStaff);
-  applyStaff();closeModal();renderCashierTabs();renderCashierPanel();renderGrid();updateNavAccess();
-  const active=document.querySelector('.view.active')?.id?.replace('v-','')||'dashboard';
-  if(!canAccess(active))go(firstAllowedView());
-  toast('Now serving as',currentStaff.name);
-}
+function setStaff(id){if(id===currentStaff.id){closeModal();return;}requestStaffLogin(id);}
 function applyStaff(){
   const i=ini(currentStaff.name);
   $('#suAv').textContent=i;$('#suAv').style.background=currentStaff.color;$('#suName').textContent=currentStaff.name;$('#suRole').textContent=currentStaff.role;
@@ -1229,6 +1766,7 @@ function applyAccent(hex){
   brand.accent=hex;
   $('#colorPick').value=hex;$('#hexInput').value=hex.replace('#','').toUpperCase();
   document.querySelectorAll('#swatches .sw-btn').forEach(s=>s.classList.toggle('on',s.dataset.c.toLowerCase()===hex.toLowerCase()));
+  saveDB();
 }
 function renderSwatches(){
   $('#swatches').innerHTML=BRAND_SWATCHES.map(c=>`<button class="sw-btn ${c.toLowerCase()===brand.accent.toLowerCase()?'on':''}" style="background:${c}" data-c="${c}" aria-label="${c}"></button>`).join('');
@@ -1237,7 +1775,7 @@ function renderSwatches(){
 function applyBrandText(){
   $('#topStore').textContent=brand.name;
   $('#rName').textContent=brand.name;$('#rTag').textContent=brand.tag;
-  renderDigitalMenu();
+  company.name=company.name||brand.name;saveDB();renderDigitalMenu();renderCompanyProfile();
 }
 function applyLogo(url){
   brand.logo=url;
@@ -1247,6 +1785,7 @@ function applyLogo(url){
     $('#topLogo').style.background='transparent';$('#topLogo').innerHTML=`<img src="${url}">`;
     $('#dropPrev').innerHTML=`<img src="${url}">`;
     $('#rLogo').style.background='transparent';$('#rLogo').innerHTML=`<img src="${url}">`;
+    saveDB();
   }
 }
 function resetBrand(){
@@ -1257,25 +1796,32 @@ function resetBrand(){
   $('#topLogo').style.background='var(--panel-dark)';$('#topLogo').innerHTML=`<img src="${DEFAULT_MARK}" alt="QuickDash">`;
   $('#dropPrev').innerHTML=`<img src="${DEFAULT_MARK}" alt="QuickDash logo preview">`;
   $('#rLogo').style.background='var(--panel-dark)';$('#rLogo').innerHTML=`<img src="${DEFAULT_MARK}" alt="QuickDash">`;
-  applyAccent('#F26722');applyBrandText();
+  applyAccent('#F26722');applyBrandText();saveDB();
   toast('Reset done','Back to QuickDash defaults');
 }
 $('#logoInput').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{applyLogo(ev.target.result);toast('Logo added','Now on your sidebar &amp; receipts');};r.readAsDataURL(f);});
-$('#nameInput').addEventListener('input',e=>{brand.name=e.target.value||'Your restaurant';applyBrandText();});
-$('#tagInput').addEventListener('input',e=>{brand.tag=e.target.value;applyBrandText();});
+$('#nameInput').addEventListener('input',e=>{brand.name=e.target.value||'Your restaurant';company.name=brand.name;applyBrandText();});
+$('#tagInput').addEventListener('input',e=>{brand.tag=e.target.value;company.about=company.about||brand.tag;applyBrandText();});
 $('#hexInput').addEventListener('input',e=>{const v=e.target.value.replace(/[^0-9a-fA-F]/g,'');if(v.length===6)applyAccent('#'+v);});
 $('#colorPick').addEventListener('input',e=>applyAccent(e.target.value));
-document.querySelectorAll('#menuMode button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#menuMode button').forEach(x=>x.classList.remove('active'));b.classList.add('active');menuDesign.mode=b.dataset.mode;renderDigitalMenu();}));
-$('#menuTheme').addEventListener('change',e=>{menuDesign.theme=e.target.value;renderDigitalMenu();});
-$('#menuPreviewCat').addEventListener('change',e=>{menuDesign.cat=e.target.value;renderDigitalMenu();});
+document.querySelectorAll('#menuMode button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#menuMode button').forEach(x=>x.classList.remove('active'));b.classList.add('active');menuDesign.mode=b.dataset.mode;saveDB();renderDigitalMenu();}));
+$('#menuTheme').addEventListener('change',e=>{menuDesign.theme=e.target.value;saveDB();renderDigitalMenu();});
+$('#menuPreviewCat').addEventListener('change',e=>{menuDesign.cat=e.target.value;saveDB();renderDigitalMenu();});
+$('#pinInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitLogin();});
+$('#ledgerRange').addEventListener('change',renderReports);
+$('#ledgerDate').addEventListener('change',renderReports);
+$('#ledgerOrderSearch').addEventListener('input',renderReports);
+$('#dashRange').addEventListener('change',renderChart2);
 
 /* ---- TOAST ---- */
 let tt;function toast(m,s=''){$('#toastMsg').textContent=m;$('#toastSub').innerHTML=s;$('#toast').classList.add('show');clearTimeout(tt);tt=setTimeout(()=>$('#toast').classList.remove('show'),2800);}
 
 /* ---- INIT ---- */
-ensureCashierSessions();renderCashierTabs();renderCashierPanel();
-renderCats();renderGrid();renderCart();renderOrders();renderChart2();renderGoal();renderLiveOrders();renderShifts();renderCalendar();renderRepCats();refreshPending();
-renderRail();renderMenuItems();renderStaff();renderSwatches();applyStaff();applyAccent('#F26722');applyBrandText();renderDigitalMenu();
+loadDB();currentStaff=staff[0];selectedLoginStaffId=currentStaff.id;
+$('#ledgerDate').value=ymd(new Date());
+renderLoginUsers();selectLoginStaff(currentStaff.id);renderPinPad();
+renderEverything();saveDB();loadCloudDB();
+initAuthScreen();
 sessionTimer=setInterval(tickCashiers,1000);
 </script>
 </body>

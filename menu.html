@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickDash Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--accent:#F26722;--ink:#171C24;--muted:#6C7480;--paper:#F7F3EA;--line:#E8E2D7;--disp:"Poppins",system-ui,sans-serif;--sans:"Inter",system-ui,sans-serif;--mono:"Space Mono",monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:#111821;color:#fff;-webkit-font-smoothing:antialiased;min-height:100vh}
+  body.light{background:#fff;color:var(--ink)}
+  .public-menu{min-height:100vh;background:#111821;color:#fff;overflow:hidden;padding-bottom:92px}
+  .public-menu.light{background:#fff;color:var(--ink)}
+  .menu-hero{padding:30px 24px 18px;background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 24%,#111821),#111821)}
+  .public-menu.light .menu-hero{background:var(--paper)}
+  .menu-brand{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .menu-logo{width:46px;height:46px;border-radius:13px;background:#fff;display:grid;place-items:center;padding:7px;box-shadow:0 8px 22px rgba(0,0,0,.18);overflow:hidden}
+  .menu-logo img{width:100%;height:100%;object-fit:contain}
+  .menu-kicker{font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase}
+  .menu-hero h2{font-family:var(--disp);font-size:28px;line-height:1.05}
+  .menu-hero span{display:block;margin-top:6px;font-size:13px;line-height:1.45;color:color-mix(in srgb,currentColor 68%,transparent)}
+  .fancy-list{display:grid;grid-template-columns:1fr;gap:18px;padding:18px 24px 28px}
+  .fancy-cat h3{font-size:15px;color:var(--accent);margin-bottom:10px}
+  .fancy-item{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dashed color-mix(in srgb,currentColor 18%,transparent);font-size:13px}
+  button.fancy-item{width:100%;background:transparent;border:0;color:inherit;text-align:left;font-family:inherit;cursor:pointer}
+  .fancy-item b{font-weight:600}
+  .fancy-item span{font-family:var(--mono);font-weight:700;white-space:nowrap}
+  .image-strip{display:grid;grid-template-columns:1fr;gap:16px;padding:18px 18px 26px}
+  .image-card{width:100%;background:#fff;color:var(--ink);border:0;text-align:left;font-family:inherit;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.18);cursor:pointer}
+  .image-card .pic{height:210px;background:#FFE8D8;display:grid;place-items:center;color:var(--accent);font-family:var(--disp);font-weight:800;font-size:28px}
+  .image-card .pic img{width:100%;height:100%;object-fit:cover}
+  .image-card .info{padding:13px}
+  .image-card .info b{display:block;font-size:14px;margin-bottom:5px}
+  .image-card .info span{font-family:var(--mono);font-weight:700;color:var(--accent)}
+  .cart-tab{position:fixed;left:14px;right:14px;bottom:14px;height:62px;border:0;border-radius:18px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:0 16px;font-family:var(--sans);font-weight:800;box-shadow:0 18px 40px rgba(0,0,0,.28);z-index:5}
+  .cart-tab span{font-family:var(--mono);font-size:13px}
+  .cart-tab[hidden]{display:none}
+  .cart-panel{position:fixed;left:0;right:0;bottom:0;max-height:76vh;background:#fff;color:var(--ink);border-radius:24px 24px 0 0;box-shadow:0 -18px 50px rgba(0,0,0,.35);z-index:10;transform:translateY(105%);transition:transform .24s ease;display:flex;flex-direction:column}
+  .cart-panel.open{transform:translateY(0)}
+  .cart-head{display:flex;justify-content:space-between;align-items:center;padding:18px 18px 8px}
+  .cart-head h2{font-family:var(--disp);font-size:22px}
+  .icon-btn{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:20px}
+  .cart-lines{padding:4px 18px;overflow:auto;display:flex;flex-direction:column;gap:10px}
+  .cart-line{display:grid;grid-template-columns:1fr auto;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .cart-line b{font-size:14px}.cart-line small{color:var(--muted)}
+  .qty{display:flex;align-items:center;gap:8px}.qty button{width:30px;height:30px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:800}.qty span{font-family:var(--mono);min-width:18px;text-align:center}
+  .cart-total{padding:12px 18px 18px;border-top:1px solid var(--line);display:grid;gap:12px}
+  .cart-total .row{display:flex;justify-content:space-between;font-size:14px}.cart-total .row b{font-family:var(--mono)}
+  .order-btn{height:48px;border:0;border-radius:14px;background:var(--accent);color:#fff;font-weight:800;font-family:var(--sans)}
+  .track-card{margin:18px 18px 0;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:18px;padding:16px;box-shadow:0 14px 30px rgba(0,0,0,.14)}
+  .track-card[hidden]{display:none}
+  .track-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .track-top h2{font-family:var(--disp);font-size:20px}.track-top span{font-family:var(--mono);font-size:12px;color:var(--muted)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .step{border:1px solid var(--line);border-radius:14px;padding:11px 8px;text-align:center;font-size:12px;font-weight:800;color:var(--muted)}
+  .step i{width:10px;height:10px;border-radius:50%;display:block;margin:0 auto 7px;background:var(--line)}
+  .step.on{border-color:var(--accent);color:var(--ink);background:#FFF4EC}.step.on i{background:var(--accent)}
+  .notify-btn{margin-top:12px;width:100%;height:40px;border:1px solid var(--line);border-radius:12px;background:#fff;font-weight:800;color:var(--ink)}
+  .toast{position:fixed;left:18px;right:18px;top:18px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:13px 14px;box-shadow:0 16px 40px rgba(0,0,0,.2);font-weight:800;transform:translateY(-120%);transition:transform .2s ease;z-index:20}
+  .toast.show{transform:translateY(0)}
+</style>
+</head>
+<body>
+  <main class="public-menu" id="menu"></main>
+  <section class="track-card" id="trackCard" hidden>
+    <div class="track-top"><h2>Track your order</h2><span id="trackId">#0000</span></div>
+    <div class="steps">
+      <div class="step" data-step="taken"><i></i>Taken</div>
+      <div class="step" data-step="preparing"><i></i>Preparing</div>
+      <div class="step" data-step="ready"><i></i>Ready</div>
+    </div>
+    <button class="notify-btn" id="notifyBtn" onclick="enableNotifications()">Notify me</button>
+  </section>
+  <button class="cart-tab" id="cartTab" hidden onclick="openCart()">Your order <span id="cartTabTotal">0 RWF</span></button>
+  <section class="cart-panel" id="cartPanel">
+    <div class="cart-head"><h2>Your order</h2><button class="icon-btn" onclick="closeCart()" aria-label="Close">×</button></div>
+    <div class="cart-lines" id="cartLines"></div>
+    <div class="cart-total">
+      <div class="row"><span>Subtotal</span><b id="subTotal">0</b></div>
+      <div class="row"><span>VAT 18%</span><b id="vatTotal">0</b></div>
+      <div class="row"><span>Total</span><b id="grandTotal">0 RWF</b></div>
+      <button class="order-btn" onclick="submitOrder()">Send order</button>
+    </div>
+  </section>
+  <div class="toast" id="toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase-config.js"></script>
+<script src="assets/supabase-bridge.js"></script>
+<script>
+const DB_KEY='quickdash.database.v1';
+const DEFAULT_LOGO='assets/quickdash-logo-new.png';
+const fallbackCategories=[{name:'Coffee'},{name:'Food'},{name:'Pastries'},{name:'Cold Drinks'}];
+const fallbackItems=[
+  {cat:'Coffee',name:'Espresso',price:2000},{cat:'Coffee',name:'Americano',price:2500},{cat:'Coffee',name:'Cappuccino',price:3000},{cat:'Coffee',name:'Café Latte',price:3500},{cat:'Coffee',name:'Macchiato',price:3200},{cat:'Coffee',name:'Mocha',price:4000},
+  {cat:'Food',name:'Chicken Burger',price:6500},{cat:'Food',name:'Beef Burger',price:7000},{cat:'Food',name:'Club Sandwich',price:5500},{cat:'Food',name:'Caesar Salad',price:5000},{cat:'Food',name:'Fries',price:3000},
+  {cat:'Pastries',name:'Croissant',price:2000},{cat:'Pastries',name:'Blueberry Muffin',price:2200},{cat:'Pastries',name:'Cheesecake',price:4000},{cat:'Pastries',name:'Glazed Donut',price:1800},
+  {cat:'Cold Drinks',name:'Fresh Juice',price:3000},{cat:'Cold Drinks',name:'Soda',price:1500},{cat:'Cold Drinks',name:'Bottled Water',price:1000},{cat:'Cold Drinks',name:'Iced Tea',price:2500}
+];
+let db=JSON.parse(localStorage.getItem(DB_KEY)||'{}');
+let categories=(db.categories||fallbackCategories).map(c=>typeof c==='string'?{name:c}:c);
+let items=(db.MENU||fallbackItems).filter(i=>!i.out);
+let company=db.company||{};let brand=db.brand||{};let design=db.menuDesign||{mode:'fancy'};
+document.documentElement.style.setProperty('--accent',brand.accent||'#F26722');
+document.body.classList.toggle('light',design.theme==='light');
+menu.classList.toggle('light',design.theme==='light');
+const ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const fmt=n=>n.toLocaleString('en-US')+' RWF';
+const ymd=d=>`${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
+const sectionFor=cat=>['Coffee','Cold Drinks','Drinks','Bar'].includes(cat)?'Drinks':'Food';
+const possessive=name=>{const n=name||'Company';return /s$/i.test(n)?`${n}'`:`${n}'s`;};
+const promoActive=i=>i.promoPrice&&(!i.promoUntil||Date.now()<=new Date(i.promoUntil).getTime());
+const salePrice=i=>promoActive(i)?Number(i.promoPrice):Number(i.price);
+const priceText=i=>promoActive(i)?`<span style="color:var(--accent)">${salePrice(i).toLocaleString()} RWF</span> <small style="text-decoration:line-through;color:var(--muted);font-family:var(--mono)">${Number(i.price).toLocaleString()}</small>`:`${Number(i.price).toLocaleString()} RWF`;
+let cart=[];
+let trackedOrderId=localStorage.getItem('quickdash.trackedOrderId')||'';
+let lastProgress=localStorage.getItem('quickdash.trackedProgress')||'';
+function render(){
+  const name=company.name||brand.name||'QuickDash';
+  const logo=(brand.logo&&brand.logo!=='assets/quickdash-logo.svg')?brand.logo:DEFAULT_LOGO;
+  const hero=`<div class="menu-hero"><div class="menu-brand"><div class="menu-logo"><img src="${logo}" alt=""></div><div><div class="menu-kicker">${esc(possessive(name))} menu</div><h2>${esc(name)}</h2></div></div><span>${esc(company.about||brand.tag||'Browse today’s menu')} · Tap an item to order</span></div>`;
+  if(design.mode==='images'){
+    menu.innerHTML=hero+`<div class="image-strip">${items.map(i=>`<button class="image-card" onclick="addItem(${i.id})"><div class="pic">${i.image?`<img src="${i.image}" alt="">`:ini(i.name)}</div><div class="info"><b>${esc(i.name)}</b><span>${priceText(i)}</span></div></button>`).join('')}</div>`;
+    return;
+  }
+  const groups=categories.map(c=>({cat:c.name,items:items.filter(i=>i.cat===c.name)})).filter(g=>g.items.length);
+  menu.innerHTML=hero+`<div class="fancy-list">${groups.map(g=>`<section class="fancy-cat"><h3>${esc(g.cat)}</h3>${g.items.map(i=>`<button class="fancy-item" onclick="addItem(${i.id})"><b>${esc(i.name)}</b><span>${priceText(i).replace(' RWF','')}</span></button>`).join('')}</section>`).join('')}</div>`;
+}
+function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1800);}
+function totals(){const sub=cart.reduce((s,l)=>s+l.price*l.qty,0),vat=Math.round(sub*.18);return{sub,vat,total:sub+vat};}
+function addItem(id){const item=items.find(i=>i.id===id);if(!item)return;const line=cart.find(l=>l.id===id);if(line)line.qty++;else cart.push({...item,price:salePrice(item),qty:1});renderCart();showToast(`${item.name} added`);}
+function qty(id,d){const line=cart.find(l=>l.id===id);if(!line)return;line.qty+=d;if(line.qty<=0)cart=cart.filter(l=>l.id!==id);renderCart();}
+function openCart(){cartPanel.classList.add('open');}
+function closeCart(){cartPanel.classList.remove('open');}
+function renderCart(){
+  const t=totals();cartTab.hidden=!cart.length;cartTabTotal.textContent=fmt(t.total);
+  cartLines.innerHTML=cart.length?cart.map(l=>`<div class="cart-line"><div><b>${esc(l.name)}</b><br><small>${l.price.toLocaleString()} RWF · ${esc(l.cat)}</small></div><div class="qty"><button onclick="qty(${l.id},-1)">−</button><span>${l.qty}</span><button onclick="qty(${l.id},1)">+</button></div></div>`).join(''):`<div style="color:var(--muted);padding:16px 0">Tap menu items to start your order.</div>`;
+  subTotal.textContent=t.sub.toLocaleString();vatTotal.textContent=t.vat.toLocaleString();grandTotal.textContent=fmt(t.total);
+  if(!cart.length)closeCart();
+}
+function saveDB(){localStorage.setItem(DB_KEY,JSON.stringify(db));if(window.QuickDashCloud?.configured())QuickDashCloud.pushSnapshotSoon(db);}
+function applySnapshot(data){
+  if(!data)return;
+  db=data;localStorage.setItem(DB_KEY,JSON.stringify(db));
+  categories=(db.categories||fallbackCategories).map(c=>typeof c==='string'?{name:c}:c);
+  items=(db.MENU||fallbackItems).filter(i=>!i.out);
+  company=db.company||{};brand=db.brand||{};design=db.menuDesign||{mode:'fancy'};
+  document.documentElement.style.setProperty('--accent',brand.accent||'#F26722');
+  document.body.classList.toggle('light',design.theme==='light');
+  menu.classList.toggle('light',design.theme==='light');
+}
+async function loadCloudDB(){
+  if(!window.QuickDashCloud?.configured())return;
+  const data=await QuickDashCloud.pullSnapshot();
+  if(data){applySnapshot(data);render();renderTracking();}
+}
+function progressLabel(p){return ({taken:'Order taken',preparing:'Preparing your order',ready:'Your order is ready'})[p]||'Order taken';}
+function enableNotifications(){
+  if(!('Notification' in window)){showToast('Notifications are not available here');return;}
+  Notification.requestPermission().then(p=>showToast(p==='granted'?'Notifications enabled':'Notifications not enabled'));
+}
+function notifyProgress(order,progress){
+  const msg=progressLabel(progress);
+  showToast(`${order.id}: ${msg}`);
+  if('Notification' in window&&Notification.permission==='granted')new Notification(`${order.id} · ${msg}`,{body:'QuickDash menu order update'});
+}
+function currentTrackedOrder(){
+  if(!trackedOrderId)return null;
+  db=JSON.parse(localStorage.getItem(DB_KEY)||'{}');
+  return (db.orders||[]).find(o=>o.id===trackedOrderId)||null;
+}
+function renderTracking(){
+  const order=currentTrackedOrder();
+  trackCard.hidden=!order;
+  if(!order)return;
+  const progress=order.progress||'taken';
+  trackId.textContent=order.id;
+  document.querySelectorAll('.step').forEach(s=>s.classList.toggle('on',['taken','preparing','ready'].indexOf(s.dataset.step)<=['taken','preparing','ready'].indexOf(progress)));
+  if(lastProgress&&lastProgress!==progress)notifyProgress(order,progress);
+  lastProgress=progress;localStorage.setItem('quickdash.trackedProgress',progress);
+}
+function submitOrder(){
+  if(!cart.length)return;
+  db=JSON.parse(localStorage.getItem(DB_KEY)||'{}');
+  const now=Date.now(),seq=db.orderSeq||1044,t=totals(),orderNo=`QD-${ymd(new Date(now))}-${String(seq).padStart(5,'0')}`;
+  const order={id:'#'+seq,orderNo,createdAt:now,type:'Phone menu',items:cart.map(l=>({name:l.name,qty:l.qty,price:l.price,cat:l.cat,section:sectionFor(l.cat),lineTotal:l.price*l.qty})),subtotal:t.sub,vat:t.vat,total:t.total,pay:'Not paid',status:'pending',progress:'taken',progressUpdatedAt:now,staff:'Phone menu',sc:brand.accent||'#F26722'};
+  db.orders=[order,...(db.orders||[])];db.orderSeq=seq+1;saveDB();
+  trackedOrderId=order.id;lastProgress='taken';localStorage.setItem('quickdash.trackedOrderId',order.id);localStorage.setItem('quickdash.trackedProgress','taken');
+  cart=[];renderCart();renderTracking();closeCart();showToast(`Order sent ${order.id}`);
+}
+render();
+renderCart();
+renderTracking();
+loadCloudDB();
+setInterval(renderTracking,1600);
+window.addEventListener('storage',e=>{if(e.key===DB_KEY)renderTracking();});
+</script>
+</body>
+</html>
